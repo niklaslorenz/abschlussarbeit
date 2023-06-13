@@ -1,0 +1,70 @@
+- Einführung
+- icore
+    - Erweiterungen: bram und dynamic execution
+- Sha3
+    - Sicherheitseigenschaften einer Hash-Funktion
+    - Teile einer Hashfunktion
+        - Einwegfunktion -> keccak-Funktion
+        - Kompressionsfunktion -> Sponge-Konstruktion
+    - Erklärung zum Namen Sha3 und Sha und Sicherheit von Sha3
+    - Sponge-Konstruktion
+        - Aufbau
+        - Intuitive Vorstellung von Sicherheit
+    - keccak-Funktion
+        - Rundenfunktion mit Rundenparameter
+        - Subfunktionen theta, rho, pi, chi, iota
+        - Nichtlinearität nur in Chi
+- Implementierung in Software
+- Optimierungspotential
+    - Design von sha3, optimiert für 64-bit Prozessoren
+    - Beschleunigung von 64-bit rotate Operationen
+    - Zusammenführen von Operationen in Subfunktionen
+    - Zusammenführen von Subfunktionen
+    - Speicherzugriffe minimieren durch Speichern der Daten im Beschleuniger
+
+- Iteration 1:
+    - Speichert StateArray komplett in FFs und berechnet eine Runde in einem Takt
+    - Deutlich zu groß
+    - Verbesserungsidee:
+        - Teile den Beschleuniger auf in mehrere Teile (Atome)
+        - Jedes Atom hält einen Teil der Daten und berechnet die Runden nur für diesen Teil
+        - Aufteilung der Daten an Lanes
+            - Vorteil: rho kann ohne Datenaustausch durchgeführt werden (kein Austausch von unterschiedlich langen Lane-Segmenten)
+            - Nachteil: theta, pi, chi operieren auf Slices, also brauchen 3 Operationen Datenaustausch
+        - Umordnen der Operationen, sodass theta, pi, chi und iota an einem Stück ausgeführt werden können
+            - Abrollen der Rundenfunktion -> gamma
+
+- Iteration 2:
+    - 2 Atome, ein Atomtyp, kontrolliert von einem Parameter
+    - jedes Atom speichert 13 Lanes, sodass die Symmetrie der Atome beibehalten wird (Lane 12 wird doppelt gespeichert)
+    - Benötigter Speicher in FFs reduziert von 1600 zu 800 pro Atom
+    - Benötigt eine Statemachine für die Ausführung
+    - Kommunikationsprotokoll zwischen den Atomen
+        - Muss arbeiten mit dem Atomframework
+    - Immer noch zu groß wegen der Statemachine und dem FF-Speicher
+    - Verbesserungsidee:
+        - Nutze BRAM zum Speichern der Daten.
+        - BRAM Zugriffe können pipelined werden, um Beschleunigung durch Speicherzugriffe beizubehalten
+        - Aufspliten der Datenblöcke in tile slices
+            - Vorteil: korrektes Format für gamma
+            - Nachteil: falsches Format für rho, falsches Format für Eingabe
+            - Aber: rho kann durch einen Puffer realisiert werden, kostet extrem viel Beschleunigung
+            - Gamma mit lane aligned memory noch langsamer + ganze Lanes müssen ausgetauscht werden zwischen den Atomen
+
+- Iteration 3:
+    - 2 Dual Port BRAM Blöcke (2 tile slices pro port und takt, sodass es die Bandbreite der Verbindung zwischen den Atomen best möglich auslastet)
+        - Gamma muss nicht in place berechnet werden
+    - Verbesserte statemachine
+    - selective buffer für rho
+        - zwei schritte, ls und rs
+    - Größe passt
+    - Zwei extra Atome (ein Typ kontrolliert von einem Parameter) für das Umordnen der Blöcke
+        - Zeitgleich mit dem Berechnen der Rundenfunktion
+        - Dauert kürzer, beeinflusst also nicht die Ausführungszeit, nur beim ersten Block
+        
+- Analyse des Designs:
+    - Theoretische Beschleunigung (ohne Speicherzugriffe)
+    - Gemessene Beschleunigung
+    - Gemessene Beschleunigung mit Beschleuniger für 64 bit rotate Beschleuniger
+    
+- Zusammenfassung
