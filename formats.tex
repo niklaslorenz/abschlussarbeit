@@ -1,0 +1,102 @@
+% =====================================================
+% Page Setup
+% =====================================================
+\setlength{\textwidth}{160mm} \setlength{\textheight}{245mm}
+\setlength{\oddsidemargin}{5mm}
+%pagelayout: (1in=25,4mm), default offset of page origin: 1in x 1in
+%     25,4+5=30,4mm       160mm          19,6mm
+%  |                   sadfasdfasdfasdf          |
+\setlength{\evensidemargin}{-5,8mm} 
+%     25,4-5,8= 19,6mm    160mm          30,4mm
+%  |                   sadfasdfasdfasdf          |
+\setlength{\topmargin}{00mm} \setlength{\voffset}{-15mm}
+\setlength{\headsep}{12mm} \setlength{\footskip}{15mm}
+\setlength{\headheight}{15.1pt}
+
+% =====================================================
+% sonstige Einstellungen
+% =====================================================
+%\flushbottom % Textfluss schoen unten ausrichten
+\footnotesep12pt % Abstand Text / Fussnote
+%\setlength{\parindent}{0pt} \setlength{\abovecaptionskip}{-6pt}
+%\setlength{\belowcaptionskip}{0pt} \setlength{\intextsep}{18pt}
+%\renewcommand{\baselinestretch}{1.2} % Zeilenabstand
+\setcounter{secnumdepth}{4}
+\newcommand{\p}[1]{\texttt{#1}}
+\nonfrenchspacing
+
+% =====================================================
+% Setup Header and Footer for 'FANCY' Mode
+% =====================================================
+	 
+\pagestyle{fancy}
+\fancyhead{}
+\makeatletter
+\if@twoside
+	\fancyhead[LO]{\sf{\rightmark}}
+	\fancyhead[RE]{\sf{\leftmark}}
+	\fancyfoot[LE]{\setlength{\unitlength}{1mm}
+		\textblockorigin{20mm}{290mm}
+\setlength{\TPHorizModule}{1mm}
+\setlength{\TPVertModule}{\TPHorizModule}
+	  \begin{textblock}{6}(-0.4,9)
+		  \includegraphics[height=0.6cm,width=0.6cm]{CESlogo.pdf}
+	  \end{textblock}
+	  \begin{textblock}{50}(6,10.4)
+ 	    \footnotesize\sf{Chair for Embedded Systems}
+	  \end{textblock}
+	}
+\else % single side
+	\fancyhead[LO]{\sf{\leftmark}}
+	\fancyfoot[LO]{\setlength{\unitlength}{1mm}
+	  \begin{textblock}{6}(-0.4,9)
+		  \includegraphics[height=0.6cm,width=0.6cm]{CESlogo.pdf}
+	  \end{textblock}
+	  \begin{textblock}{50}(6,10.4)
+ 	    \footnotesize\sf{Chair for Embedded Systems}
+	  \end{textblock}
+  }
+\fi
+\fancyhead[LE, RO]{\sf{\thepage}}
+\makeatother
+
+\cfoot{}
+\fancyfoot[RO]{\footnotesize\sf{\thesistype{} \student{}}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{1.0pt}
+
+% ====================================================
+% Setup Header and Footer for 'plain' mode
+% ====================================================
+\makeatletter
+\if@twoside
+	\fancypagestyle{plain}{
+	\fancyhf{}
+	\fancyfoot[LE]{\setlength{\unitlength}{1mm}
+	  plain twoside
+  }
+	\cfoot{}
+	\fancyfoot[RO]{\footnotesize\sf{\thesistype{} ~ \student}}
+	\renewcommand{\headrulewidth}{0pt}
+	\renewcommand{\footrulewidth}{1.0pt}}
+\else
+	\fancypagestyle{plain}{
+	\fancyhf{}
+	\fancyfoot[L,C,R]{\setlength{\unitlength}{1mm}
+    plain single side
+  }
+	\cfoot{}
+	\rfoot{\footnotesize\sf{\thesistype \diplomand}}
+	\renewcommand{\headrulewidth}{0pt}
+	\renewcommand{\footrulewidth}{1.0pt}}
+\fi
+
+%makes the index do not remove!
+\makeindex
+
+\hypersetup{
+	pdfauthor=\student,
+	linkcolor=black,colorlinks=true,
+	pdftitle=\thesistitle,
+        citecolor=black
+}

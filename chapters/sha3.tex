@@ -1,0 +1,38 @@
+\documentclass{article}
+\usepackage{xcolor}
+\newcommand\todo[1]{\textcolor{red}{#1}}
+
+\begin{document}
+
+\section{SHA-3}
+
+Unter "Secure Hash Algorithm" (SHA) versteht man eine Familie kryptographischer Hashfunktionen, die von dem US-amerikanischen "National Institute of Standards and Technology" standartisiert werden \todo{oder spezifiziert?}.
+Eine solche kryptographischen Hashfunktion bildet eine Eingabe beliebiger Länge auf einen kurzen Zahlenwert fester Länge ab, wobei die Ausgabe für einen Angreifer von echtem Zufall ununterscheidbar sein soll.
+
+
+\subsection{Sicherheitseigenschaften}
+
+\subsubsection{Kollisionsresistenz}
+Eine Hashfunktion H(x) gilt als kollisionsresistent, wenn ein Angreifer nur mit vernachlässigbarer Wahrscheinlichkeit zwei verschiedene Eingaben M und M' findet, die auf den gleichen Hashwert abgebildet werden (H(M) = H(M')).
+
+\subsection{Aufbau}
+Typischerweise besteht eine solche Hashfunktion aus einer Kompressionsfunktion, die einen Eingabeblock auf eine kleinere Ausgabe abbildet. Die Eingabenachricht wird in mehrere Blöcke aufgeteilt, worauf die Kompressionsfunktion so
+oft angewendet wird, bis die gewollte Ausgabegröße erreicht ist. Die Art und Weise wie die Kompressionsfunktion verwendet wird, wird Betriebsmodus genannt. Der am weitesten verbreitete Betriebsmodus ist die Merkle-Damgard-Konstruktion.
+Sie hat die schöne Eigenschaft, dass sie die Kollisionsresistenz der Kompressionsfunktion auf die entstehende Hashfunktion überträgt. Das gilt jedoch leider nicht für alle Sicherheitseigenschaften, die man sich von einer Hashfunktion wünscht.
+So lassen sich zum Beispiel Angriffe gegen Message Authentication Codes (MACs) konstruieren, die auf der Merkle-Damgard-Konstruktion aufbauen.
+
+Während SHA-0, SHA-1 und SHA-2 diese Merkle-Damgard-Konstruktion verwenden, setzt SHA-3 auf einen anderen Betriebsmodus, die Schwammkonstruktion. Sie verwendet keine Kompressionsfunktion, sondern lediglich eine Permutation oder Transformation
+wobei der Ergebnisraum genau der Größe des Werteraums entspricht. Besonders hervorzuheben ist hier, dass die entstehende Hashfunktion kollisionsresistent ist, wenn die verwendete Permutation ununterscheidbar von einem Zufallsorakel ist,
+selbst wenn sie leicht invertierbar ist.
+
+\section{Sicherheit gegen Quantenalgorithmen}
+Wenn auch nicht bewiesen, so wird vemutet, dass Quantencomputer deutlich mächtiger sind als konventionelle Rechensysteme. Zwar ist unwahrscheinlich, dass in den nächsten Jahren Systeme mit genügend Rechenleistung auftauchen,
+trotzdem sollten aber neue Verfahren gegen solche Angreifer standhalten können. Bisher wurde gezeigt, dass die Schwammkonstruktion auch für Quantenalgorithmen nicht vom Zufall unterscheidbar ist.
+
+\section{Aufbau von SHA-3}
+\subsection{Keccak-Permutationsfuktion}
+KECCAK-p[b, nr] ist eine Funktionenfamilie, die über die beiden Parameter b und nr definiert ist. Zur Kryptoanalyse wird die 
+
+\subsection{Schwammkonstruktion}
+
+\end{document}

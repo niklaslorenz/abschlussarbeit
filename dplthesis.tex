@@ -1,0 +1,136 @@
+\documentclass[12pt,a4paper,twoside]{book}
+\usepackage[utf8]{inputenc}
+%\usepackage[T1]{fontenc} % support more glyphs. if pdf looks bad install cm-super or lmodern
+%\usepackage{ngerman} % german word wrap && german TOC/chapters
+\usepackage[ngerman,american]{babel} % allows switching hyphenation for Zusammenfassung
+\usepackage[a4paper]{geometry}
+\usepackage{wrapfig}
+\usepackage[pdftex]{graphicx}
+\graphicspath{{images/}}
+\usepackage{fancyhdr} % for nice header and footer
+\usepackage[hyperindex=true]{hyperref} % references in pdf
+\usepackage[sf]{titlesec} %customization of \chapter Titles for appendices
+\usepackage{textcomp}
+\usepackage{makeidx} % generates the index
+\usepackage{microtype} % <Urgh> for typogarphical perfection
+\usepackage{ifthen}
+\usepackage{booktabs} % fancy tables
+\usepackage[titletoc]{appendix} % custom naming of appendices
+\usepackage{amssymb, amsmath} % for equations & eqref
+\usepackage{mathtools}  % loads »amsmath«
+\usepackage{listings} \lstset{basicstyle=\small\ttfamily, numbers=left, escapeinside={(*}{*)}, captionpos=b}
+%\usepackage{dirtree}
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes,decorations}
+\usepackage[absolute,overlay]{textpos}
+%optionals
+\usepackage{amsthm}
+\usepackage[normalem]{ulem} % \sout
+\usepackage{latexsym}
+\usepackage{color}
+\usepackage{transparent}
+\usepackage{outlines}
+\usepackage{enumitem}
+
+\usepackage{cleveref}
+% Note: '\cref' is the normal case and '\Cref' is meant to be used at the beginning of the sentence (there should be no abbreviation at the beginning of the sentence).
+
+\usepackage[inkscapeformat=png]{svg}
+
+
+\crefname{section}{Section}{Sections}
+\crefname{appendix}{Section}{Sections}
+\crefname{figure}{Figure}{Figures}
+\crefname{table}{Table}{Tables}
+\crefname{equation}{Eq.}{Eq.}
+\Crefname{equation}{Equation}{Equations}
+\crefname{algocf}{Algorithm}{Algorithms}
+\crefname{algorithm}{Algorithm}{Algorithms}
+
+
+%shortcuts
+\newcommand{\kit}[0]{Karlsruhe Institute of Technology}
+
+\newcommand{\comment}[1]{\colorbox{yellow}{#1}}
+
+%----------- Student Information --------------------
+\newcommand{\student}{Niklas Lorenz}
+\newcommand{\thesistype}{Bachelorarbeit}
+\newcommand{\thesistitle}{Beschleunigen einer post-quantum sicheren Hashfunktion auf einem rekonfigurierbaren Prozessor}
+\newcommand{\professorOne}{Prof. Dr. Jörg Henkel}
+\newcommand{\professorTwo}{Prof. Dr. Wolfgang Karl}
+\newcommand{\supervisor}{Hassan Nassar, Dr. Lars Bauer}
+\newcommand{\startdate}{01.06.2023}
+\newcommand{\finishdate}{02.10.2023}
+
+
+%---------------------------------------------------
+
+\input{formats}
+	
+%----------- Front Matter---------------------------
+% no header / footer, roman page numbers
+\begin{document}
+		\pagenumbering{roman}
+		\input{titlepage}
+
+		\pagestyle{empty} %before cleardouble to have leftpage without header
+		\cleardoublepage
+
+		\input{declaration}
+		\pagestyle{empty}
+		\cleardoublepage
+
+% (german!) summary only needed for english thesis
+		\input{summary}
+ 		\pagestyle{empty}
+		\cleardoublepage
+
+%		\input{acknowledgement}
+% 		\pagestyle{empty}
+%		\cleardoublepage
+
+%---------- Main Matter ----------------------
+%arabic page numbers
+
+		% style	fuer das restliche dokument auf normal stellen
+		\pagenumbering{arabic}
+		\pagestyle{fancy}
+
+		\phantomsection
+    \addcontentsline{toc}{chapter}{Contents}
+		\tableofcontents
+		
+		\cleardoublepage
+
+    %spezielle eigenschaften nach dem inhaltsverzeichnis
+
+		\input{content}
+
+		\cleardoublepage
+
+    \begin{appendices}
+
+		\appendixtitletocon
+
+% 		\addcontentsline{toc}{chapter}{Anhänge}
+%   	\input{anhang}
+
+		\end{appendices}
+
+		\clearpage
+		\phantomsection
+		\addcontentsline{toc}{chapter}{List of tables}
+    \listoftables
+
+    \clearpage
+    \phantomsection
+    \addcontentsline{toc}{chapter}{List of figures}
+    \listoffigures
+
+		\clearpage
+		\phantomsection
+    \addcontentsline{toc}{chapter}{Bibliography}
+    \bibliographystyle{alpha}
+    \bibliography{dplthesis}
+\end{document}
