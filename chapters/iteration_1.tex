@@ -108,6 +108,7 @@ Auch die Rho-Funktion kann parallel berechnet werden und benötigt keinerlei Kom
 Anmerkung zu Reihen-orthogonalen Mustern:
 Die Gamma-Funktion benötigt ganze Slices für die Berechnung, wenn ein Slice in einem Schritt berechnet werden soll. Daher bestehen für Reihen-orthogonale Aufteilungsmuster exakt die gleichen
 Vor- und Nachteile wie für Spalten-orthogonale Muster.
+Einzig für das Ergebnis ist ein Spalten-orthogonales Muster vorteilhaft, da das Endergebnis aus den ersten 4 Lanes besteht und nur dort alle 4 Lanes in einem Atom enthalten sind.
 
 \subsubsection{4 Block Muster}
 [Schaubild]

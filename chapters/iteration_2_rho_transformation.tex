@@ -1,0 +1,43 @@
+\subsubsection{Rho-Transformation}
+
+Das Berechnen der Rho-Funktion auf Tile orientierten Daten kann mit Hilfe eines Schieberegisters als Puffer realisiert werden.
+Schreibt man alle Rotationen, die größer als 32 Stellen sind, als Rechts-Rotationen um, so müssen in jedem Atom maximal 7 Links- und Rechts-Rotationen durchgeführt werden.
+Hier bietet es sich wieder an, die Berechnung in zwei Schritte aufzuteilen. Im ersten Schritt werden die Links-Rotationen berechnet, während die anderen Lanes nicht verändert werden.
+Im zweiten Schritt werden dann analog die Rechts-Rotationen durchgeführt. Um das Prinzip zu verdeutlichen, schauen wir uns zuerst die Verarbeitung einer einzelnen Lane an.
+Für die Rotation um k Bits einer Lane l mit k \< 32, kann die obere Hälfte von l rechts an l angefügt werden.
+w = l[63 downto 0] || l[63 downto 32]
+rotl(l, k) = w[95 - k downto 31 - k]
+
+Interessant ist, dass diese Berechnung über ein 32 Bit Schieberegister realisiert werden kann.
+
+b[31 downto 0] := l[63 downto 32]
+for i in 0 to 63 loop
+    r[i] := b[32 - k]
+    b := (b >> 1) | (l[i] << 63)
+end loop
+return r
+
+Mit diesem Vorgehen können die Rotationen berechnet werden, wobei nicht die ganze Lane, sondern immer nur die Hälfte in einem Puffer vorliegen muss.
+Da die Berechnung der Rechts-Rotationen analog funktioniert, kann ein Puffer für beide Arten von Rotation verwendet werden.
+Des weiteren lässt sich die schleife auch abrollen, womit mehrere Bits auf einmal verarbeitet werden können und natürlich können mit mehreren Puffern auch
+mehrere Lanes gleichzeitig rotiert werden. Dabei unterscheiden sich die einzelnen Lanes nur im Index der Auswahl ihrer Ergebnisbits.
+Für den konkreten Fall reichen insgesamt 7 Puffer aus. So können im ersten Schritt alle Links- und im zweiten Schritt alle Rechts-Rotationen berechnet werden.
+[Schaubild]
+
+\subsubsection{BRAM als Datenspeicher}
+Mit dem neuen Ansatz für die Berechnung der Rho-Funktion kann auch der Datenspeicher in den BRAM verschoben werden, da das Problem der unterschiedlichen Ausrichtung der benötigten Eingabedaten behoben ist.
+Ein BRAM Block unterstütz dabei bis zu zwei Lese- und Schreibports. Das ist essenziell für die Berechnung der Gamma-Funkion, da durch die Pipeline in jedem Takt sowohl Daten für die eigenen Berechnungen als
+auch für die Berechnungen des anderen Atoms gelesen werden müssen und auch die Ergebnisse beider Atome gleichzeitig festgehalten werden.
+Da die Gamma-Funktion immer zwei Slices gleichzeitig verarbeitet, bietet sich dieses Format auch für die Speicherstruktur an. So können von jedem Port immer zwei Tiles gleichzeitig adressiert werden.
+Da jeder Atom-Contrainer über insgesammt 3 BRAM Blöcke verfügt, können die Ergebnisse der Gamma-Funktion auch in einem anderen BRAM-Block gespeichert werden.
+Die Rho-Funktion kann tatsächlich quasi inplace in einem BRAM-Block berechnet werden, da der BRAM read-before-write unterstützt. Wird ein Tile k gelesen und liegt das Ergebnis n Takte später vor,
+so kann es an der Stelle k + n gespeichert werden, nachdem im gleichen Takt der alte Slice mit dem Index k + n gelesen wurde.
+Das bedeutet, dass beide Ports gleichzeitig Daten für die Berechnung bereitstellen können, sodass immer 4 Tiles gleichzeitig in den Puffer eingelesen werden können.
+Auf diese Weise benötigt die Berechnung einer vollständigen Rotation somit theoretisch etwa 8 Takte zum Füllen des Puffers mit den Initialwerten und 16 Takte zum Lesen Schreiben aller Tiles zuzüglich
+zu ein paar Verzögerungstakten aufgrund des BRAMs.
+
+\subsubsection{Datenbus}
+Da sowohl Gamma als auch Rho in der Zusammenarbeit mit dem BRAM wie es oben beschrieben ist, niemals auf zwei unterschiedlichen BRAM-Blöcken gleichzeitig schreiben oder gleichzeitig lesen,
+können die Datenleitungen für die beiden Speicherblöcke zusammengelegt werden.
+[Schaubild + Erklärung]
+
