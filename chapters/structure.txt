@@ -1,3 +1,15 @@
+Größeneinordnung:
+- Einleitung: 2 Seiten
+- i-Core: 4-6 Seiten
+- Sha3: 8 - 10 Seiten
+- Iteration 1: 6 Seiten
+- Iteration 2: 8 Seiten
+- Iteration 3: 8 Seiten
+- Ergebnisse: 4 Seiten
+- Glossar etc.: 2 Seiten
+Min: 42
+Max: 46
+
 - Einführung
 - icore
     - Erweiterungen: bram und dynamic execution

@@ -4,7 +4,7 @@ Das Berechnen der Rho-Funktion auf Tile orientierten Daten kann mit Hilfe eines 
 Schreibt man alle Rotationen, die größer als 32 Stellen sind, als Rechts-Rotationen um, so müssen in jedem Atom maximal 7 Links- und Rechts-Rotationen durchgeführt werden.
 Hier bietet es sich wieder an, die Berechnung in zwei Schritte aufzuteilen. Im ersten Schritt werden die Links-Rotationen berechnet, während die anderen Lanes nicht verändert werden.
 Im zweiten Schritt werden dann analog die Rechts-Rotationen durchgeführt. Um das Prinzip zu verdeutlichen, schauen wir uns zuerst die Verarbeitung einer einzelnen Lane an.
-Für die Rotation um k Bits einer Lane l mit k \< 32, kann die obere Hälfte von l rechts an l angefügt werden.
+Für die Rotation um k Bits einer Lane l mit k < 32, kann die obere Hälfte von l rechts an l angefügt werden.
 w = l[63 downto 0] || l[63 downto 32]
 rotl(l, k) = w[95 - k downto 31 - k]
 
