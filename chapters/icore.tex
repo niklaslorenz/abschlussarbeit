@@ -1,8 +1,33 @@
-
-\section{Einführung Rekonfigurierbare Prozessoren}
+Der icore ist ein rekonfigurierbarer Prozessor \comment{(Cite Missing)}, das bedeutet er besitzt neben den klassischen Komponenten
+eines Prozessors noch eine zur Laufzeit konfigurierbare Einheit aus Hardwarebeschleunigern. 
+Als Grundlage dient ein modifizierter Leon3-Kern, ein 7-Stufen-Pipeline-Prozessor basierend auf der SPARC-V8-Architektur \comment{(Cite Missing)}.
+Er wird erweitert um eine sogenannte \textbf{Reconfigurable Fabric}, einen Container für fünf Beschleunigerblöcke mit Anbindung an Speicher und Registerdatei.
+Wie genau diese Fabric aufgebaut ist und wie sie funktioniert schauen wir uns in Abschnitt \ref{sec:icore_arch} an.
+Vorher wollen wir uns aber erstmal überlegen wofür rekonfiguruerbare Prozessoren eigentlich gut sind.
+\section{Rekonfigurierbare Prozessoren}
+Herkömmliche Prozessoren verfügen über einen mehr oder weniger komplexen Befehlssatz, der es ihnen erlaubt jede beliebige Berechnung durchzuführen,
+indem die gewünschte Rechenoperation in mehrere vom Befehlssatz unterstützte Operationen aufgeteilt wird. Dadurch sind sie extrem flexibel.
+Für rechenintensive Aufgaben, bei denen komplexere Operationen sehr oft ausgeführt werden müssen, ist dieser Ansatz jedoch nachteilig,
+da der Prozessor viel Zeit benötigt, um diese komplexen Operationen zu berechnen. Um dem Abhilfe zu verschaffen, wird spezializsierte Hardware
+wie zum Beispiel Grafikkarten, Netzwerkkarten oder FPGAs (siehe Abschnitt \ref{sec:fpga}) eingesetzt, die besonders effizient eine bestimmte Art von Aufgabe erfüllen.
+Durch die fortschreitende Digitalisierung und Vorstöße in Bereichen wie der Industrie 4.0 oder dem Internet der Dinge (IoT) wächst der Bedarf an Kleinstrechensystemen,
+die für den konkreten Anwendungszweck spezielle Aufgaben übernehmen können. Diese müssen vor allem energieeffizient, klein und günstig in der Produktion sein
+und müssen dabei trotzdem auch in der Lage sein komplexere Aufgaben teilweise sogar in Echtzeit erfüllen zu können.
+Ein rekonfigurierbarer Prozessor bietet hier die Vorteile der hohen Flexibilität eines normalen Prozessors und verbindet sie mit der hohen Spezialisierbarkeit von FPGAs,
+indem er mehrere kleine Blöcke an vom Entwickler konfigurierbare Logikblöcke bereitstellt, die mit speziellen Prozessorinstruktionen gesteuert werden können.
+Auf diese Weise können auch sehr spezielle Anwendungen von Off-The-Shelf Hardware erfüllt werden, was die Produktionskosten gegenüber Spezialanfertigungen,
+sowie den Energieverbrauch und den Bedarf an Rechenleistung gegenüber klassischen Prozessoren reduziert.
 
 \subsection{FPGA}
+\label{sec:fpga}
+\textbf{Field Programmable Gate Arrays} (FPGAs) sind integrierte Schaltkreise, die von sich aus keine genaue Funktion implementieren. Stattdessen muss erst eine Schaltung "geladen" werden.
+Auf der kleinsten Ebene bestehen sie aus Logikblöcken und Verbindungsstrukturen. In einen Logikblock kann von außen eine boolsche Funktion "einprogrammiert" werden. Dabei macht man sich zu Nutze,
+dass eine n-stellige boolsche Funktion durch einen $2^n$-Bit Vektor codiert werden kann. In Abb. \comment{\ref{fig:fpga_lut}} ist zum Beispiel die Funktion $f = A \vee (B \wedge \neg C)$ dargestellt.
+Der 8-Bit Ergebnisvektor wird in SRAM-Speicherzellen gehalten und durch einen 8-zu-1-Multiplexer kann mit $A$, $B$ und $C$ das entsprechende Ergebnisbit ausgewählt werden. Diese Schaltung wird Lookup Table (LUT) genannt.
+Eine Logikzelle enthält neben einem solchen Lookup Table meist noch ein Flip-Flop, sodass das Ergebnis gespeichert oder direkt ausgegeben werden kann.
 
-\section{Architektur}
+
+\section{icore-Architektur}
+\label{sec:icore_arch}
 
 \section{Erweiterung Dynamic Execution}
