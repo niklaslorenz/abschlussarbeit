@@ -1,0 +1,225 @@
+Die drei vorgestellten Designs für den Beschleuniger bauen aufeinander auf mit dem Ziel immer mehr Leistung für weniger Platzbedarf einzutauschen.
+In diesem Kapitel werden alle Designs miteinander verglichen was sowohl ihre Größe angeht, als auch ihr Leistungspotential.
+Das konkrete Ziel dieser Arbeit bestand darin einen Beschleuniger zu entwerfen, der speziell die Anforderungen der icore-Architektur erfüllt.
+Daher wird in diesem Kapitel hauptsächlich der icore als Vergleich herangezogen für die Ausführung von Software-Implementierungen.
+Außerdem werden wir uns bei der Untersuchung der Ausführungszeiten auf die KECCAK-p-Funktion beschränken,
+da diese den Hauptaufwand darstellt und gerade bei größeren Datenmengen Schritte wie die Initialisierung und das Auslesen des Hashs am Ende vernachlässigbar sind.
+Bei Vergleichen zwischen Beschleunigern mit Software-Berechnungen dient immer die Implementierung aus \comment{Anhang 1} als Bezug.
+
+
+\section{Syntheseergebnisse}
+\begin{table}
+    \centering
+    \begin{tabular}{lrrrrrr}
+    & A-Atome & B-Atome & LUTs & FFs & kritische Pfadlänge & BRAM Bänke \\
+    \hline
+    1. Entwurf & 1 & 0 & 3214 & 1845 & \comment{?} & 0 \\
+    2. Entwurf & 2 & 0 & 4643 & 1865 & \comment{?} & 0 \\
+    3. Entwurf & 2 & 2 & 1205 & 628 & \comment{?} & 2
+    \end{tabular}
+    \label{tab:synth_ergebniss}
+    \caption{Interessante Größen der synthetisierten Designs}
+    \small
+    Sämtliche Größen beziehen sich auf die A-Atome
+\end{table}
+In Tabelle \ref{tab:synth_ergebniss} sind die Größen der verschiedenen Beschleunigeriterationen nocheinmal zusammengefasst.
+Während die ersten beiden Iterationen alle Funktionalitäten in die A-Atomen integrieren, die die tatsächliche Berechnung der KECCAK-p-Funktion durchführen,
+benötigt die dritte Iteration noch zwei zusätzliche B-Atome, in denen die Eingabedaten so umgeordnet werden, dass sie in den BRAM der A-Atome geschrieben werden können.
+Da in dem dritten Entwurf die Obergrenze von 1600 LUTs für die A-Atome noch nicht erreicht ist, kann diese Funktionalität auch in die Beschleuniger intergriert werden.
+Je weniger Atome für den Beschleuniger benötigt werden, desto schneller kann der Beschleuniger geladen werden.
+Performance-technisch ist es jedoch sinnvoller diese Funktionen zu trennen. Da die A-Atome bei der Berechnung sowohl den BRAM als auch ihre Kommunikationsschnittstelle
+voll auslasten, kann die Aufgabe der B-Atome nicht gleichzeitig in den A-Atomen durchgeführt werden. Daher müsste für die Zusammenführung der Atome die Einlesephase deutlich verlängert werden.
+Für das Verarbeiten großer Datenmengen ist es daher sinnvoll die leicht erhöhte Konfigurationszeit des Beschleunigers inkauf zu nehmen.
+
+\section{Ausführungszeit}
+Zur bestimmung der Ausführungszeit des Beschleunigers verwenden wir hier die Simulation. Das hat den Vorteil,
+dass auch die vorherigen Entwürfe mit verglichen werden können, die zu groß für den icore sind.
+Da alle Entwürfe statisch sind in ihrer Ausführungszeit, die Abarbeitung eines Blocks also immer die gleiche Zeit benötigt,
+liefert diese Herangehensweise genauere Werte als die Zeitmessung es auf dem icore tun würde.
+Da die kritischen Pfade aller Entwürfe die Operation auf dem 50MHz Takt des icores zulassen, können die Taktzahlen direkt miteinander verglichen werden, siehe Tabelle \ref{tab:zeiten_alle_iterationen}.
+\begin{table}
+    \centering
+    \begin{tabular}{lrrr}
+        & Berechnungsdauer & Einlesedauer & Gesamtdauer\\
+        \hline
+        1. Entwurf & 24 Takte & 34 Takte & 58 Takte \\
+        2. Entwurf & 509 Takte & 34 Takte & 543 Takte \\
+        3. Entwurf & 1968 Takte & 36 Takte & 2004 Takte
+    \end{tabular}
+    \label{tab:zeiten_alle_iterationen}
+    \caption{Ausführungszeiten der verschiedenen Beschleuniger-Entwürfe}
+    \small Alle Zeitangaben beziehen sich auf die Abarbeitung eines Datenblocks. Initialisierung und Auslesen des Hashs sind nicht einberechnet.
+\end{table}
+Die Einlesedauer der Iterationen unterscheidet sich dabei fast gar nicht. In den ersten beiden Entwürfen liegt jede der 17 Lanes aus den Eingabedaten
+nacheinander jeweils einen Kontrollschritt, also zwei Takte, an beiden Atomen an und die Atome wählen jeweils die Lanes aus, die sie benötigen
+(im ersten Entwurf liest das einzige Atom alle Lanes ein).
+Im dritten Entwurf hingegen lesen beide A-Atome gleichzeitig verschiedene Slices, die ihnen von den B-Atomen bereitgestellt werden.
+Da in jedem Kontrollschritt jedoch nur jeweils vier Tiles zu je 13 Bits übertragen werden anstatt einer ganzen Lane, werden 16 statt der vorherigen 13 Kontrollschritte benötigt.
+Diese Effekte heben sich gegenseitig auf. Eine weitere Optimierung der Einlesezeiten ist auch nicht weiter nötig. Im ersten Entwurf ist sie nicht möglich,
+da die Kommunikationsschnittstelle vollständig ausgelastet ist und in den beiden letzten Entwürfen beträgt das Einlesen einen zu kleinen Teil an der gesamten Berechnung.
+
+Die tatsächliche Berechnung hingegen nimmt mit jedem Entwurf deutlich mehr Zeit in Anspruch. Das ist alleine der Sequenzialisierung geschuldet.
+Statt wie vorher die gesamte Rundenfunktion in einem Takt abzuarbeiten, werden im zweiten Entwurf Rho in einem Schritt und Gamma/Theta in 16 Schritten für jeweils 2 Slices pro Atom berechnet.
+Hinzu kommen noch ein paar Takte durch die Verzögerung zwischen den Atomen, sodass die Berechnung der erweiterten Rundenfunktion im zweiten Entwurf insgesamt 21 Takte benötigt.
+Der dritte Entwurf verwendet die gleiche Vorgehensweise für die Berechnung von Gamma/Theta, braucht allerdings ein drei Takte länger durch die Verzögerung des BRAM
+und berechnet außerdem auch Rho sequenziell in 57 Takten. In Tabelle \ref{tab:zeiten_iteration_3} sind die Ausführungszeiten
+für die verschiedenen Teilfunktionen im dritten Entwurf nocheinmal zusammengefasst.
+\begin{table}
+    \centering
+    \begin{tabular}{lrrr}
+    Funktion & Zeit (in Takten) & Iterationen in KECCAK-p & Anteil an KECCAK-p \\
+    \hline
+    Initialisierung & 18 & - & - \\
+    Einlesen & 36 & 1 & 1,8\% \\
+    Theta & 24 & 1 & 1,2\% \\
+    Gamma & 24 & 24 & 28,74\% \\
+    Rho & 57 & 24 & 68,26\% \\
+    KECCAK-p & 2004 & 1 & 100\% \\
+    Auslesen & 27 & - & -
+    \end{tabular}
+    \label{tab:zeiten_iteration_3}
+    \caption{Ausführungszeiten des finalen Beschleunigers}
+\end{table}
+Die KECCAK-p-Funktion, für die wir uns eigentlich bei der Berechnung von SHA-3 interessieren, setzt sich zusammen aus dem Einlesen des Datenblocks,
+einer Berechnung von Theta, sowie 24 Berechnungen von Rho und Gamma.
+
+\section{Weitere Optimierungsansätze}
+Der dritte Entwurf des Beschleunigers erfüllt zwar alle geforderten Voraussetzungen, trotzdem lassen sich noch weitere Verbesserungen vornehmen, um die Leistungsfähigkeit zu erhöhen.
+Daher wollen wir uns hier noch ein paar dieser möglichen Optimierungen anschauen.
+
+\subsubsection{Auslagerung der Ergebniskonvertierung}
+Das Ergebnismodul nimmt unnötig viel Platz im Atom ein und ist eigentlich nur deshalb in den A-Atomen enthalten, weil der Platz nicht weiter benötigt wird.
+Es lässt sich aber auch in die B-Atome verschieben, die auch die Konvertierung für die Eingabe übernehmen.
+So kann noch ein wenig mehr Platz für andere Optimierungen geschaffen werden, die die Berechnungsgeschwindigkeit weiter verbessern.
+
+\subsubsection{Reduktion auf ein A-Atom}
+Die Berechnung wurde ursprünglich auf zwei Atome aufgeteilt, damit die Datenmenge reduziert werden kann, die ein Atom halten muss.
+Durch die Verwendung des BRAM für den Datenspeicher fällt dieser Aufwand weg, da der BRAM mehr als genug Platz bereitstellt.
+Ein Beschleuniger, der nur ein A-Atom verwendet, bietet vor allem den Vorteil, dass für die Konvertierung der Eingabedaten auch nur ein B-Atom benötigt wird.
+Der gesamte Beschleuniger benötigt also nur zwei der fünf Atome. Abhängig vom Anwendungsfall können so auch mehrere kleine Beschleuniger nebeneinander existieren,
+ohne dass die Atom-Container zwischendurch rekonfigueriert werden müssen.
+Außerdem ist die Berechnung selbst nicht mehr durch die Kommunikationsschnittstelle zwischen den Atomen beschränkt, wodurch weitere Optimierungen möglich werden.
+Die Reduktion auf ein A-Atom alleine bringt jedoch keine direkte Leistungsverbesserung. Im Gegenteil, da aktuell beide A-Atome parallel sowohl Rho als auch Gamma berechnen,
+würde die Reduktion alleine die Berechnungszeit etwa verdoppeln. Auch das Einlesen der Datenblöcke dauert länger, da der gesamte Block in ein einziges Atom übertragen werden muss,
+was wiederum durch die Kommunikationsschnittstelle beschränkt ist. 
+
+\subsubsection{Erweiterung der BRAM-Schnittstelle}
+Aktuell können an einem Port des BRAM immer jeweils zwei Tiles gleichzeitig gelesen und geschrieben werden.
+Die Erweiterung der Speicherschnittstelle auf zum Beispiel 4 Tiles erlaubt es,
+eine größere Menge an Tiles gleichzeitig für die Berechnung von Rho bereit zu stellen.
+Die Rho-Funktion könnte somit doppelt so schnell berechnet werden. Da die Berechnung von Rho mit 57 Takten
+etwa 70\% der 81 Takte für die Berechnung der erweiterten Rundenfunktion beansprucht (siehe \ref{tab:zeiten_iteration_3}),
+ist nochmal mit einer weiteren Beschleunigung von $S_{WideBRAM} = \frac{81\ Takte}{81\ Takte - (57\ Takte / 2)} \thickapprox 1,54$ zu rechnen.
+Die restlichen 30\% der Berechnungszeit für die erweiterte Rundenfunktion werden für die Gamma-Funktion verwendet.
+Diese kann durch die Erweiterung der Speicherschnittstelle nicht weiter beschleunigt werden,
+da sie die Kommunikationsschnittstelle zwischen den Atomen bereits den limitierende Faktor darstellt.
+Unklar ist noch, ob der vorhandene Plat für diese Optimierung ausreicht.
+
+\subsubsection{Erweiterung des Rho-Puffers}
+Möchte man wie oben beschrieben den Beschleuniger auf ein Atom reduzieren, kann auch der Rho-Puffer,
+in dem die Bit-Rotationen blockweise auf mehreren Lanes gleichzeitig durchgeführt werden, erweitert werden.
+Im aktuellen Entwurf ist das nicht mehr möglich, da genau eine Links- und eine Rechtsrotation auf
+etwa jeweils der Hälfte der in den Atomen gespeicherten Lanes durchgeführt werden.
+Links- und Rechtsrotationen lassen sich nicht zusammenlegen, was damit zusammenhängt in welche
+Richtung die Lanes aus dem Speicher gelesen und geschrieben werden.
+Findet jedoch die gesamte Berechnung nur in einem Atom statt, sind für die vollständige Abarbeitung
+zwei Links- und zwei Rechts-Rotationen notwendig. Erweitert man den Puffer, sodass jeweils die beiden Links- und die beiden Rechts-Rotationen
+zusammengelegt werden können, kann dadurch verhindert werden, dass die Berechnung der Rho-Funktion länger dauert.
+
+\subsubsection{Auslagerung der Rho-Berechnung}
+Es ist zu erwarten, dass die Erweiterung des Rho-Puffers viel zusätzlichen Platz in Anspruch nehmen wird.
+Sollte das Atom dadurch die maximale Größe überschreiten, kann eventuell ein Teil der Berechnung von Rho in ein anderes Atom wieder ausgelagert werden.
+Aktuell werden in jedem Takt jeweils 4 Bits aus maximal 7 Lanes, also maximal 28 Bit in den Puffer geschrieben und gleichzeitig gelesen.
+Dieser Datenverkehr ist über die Kommunikationsschnittstelle durchaus gleichzeitig in beide Richtungen möglich, er kann sogar noch verdoppelt werden,
+wenn man auch die BRAM-Schnittstelle wie oben beschrieben erweitert. Jenachdem wie groß diese Konstruktion wird, kann sie auch in das B-Atom integriert werden,
+sodass der Beschleuniger trotzdem nur aus zwei Atomen besteht. Das B-Atom würde dann während der Berechnung von Rho mit dem A-Atom zusammenarbeiten und
+zwischendurch den nächsten Datenblock einlesen.
+
+\subsubsection{Erhöhung der Berechnungsfrequenz}
+Der Beschleuniger selbst erlaubt eine Taktfrequenz von 200MHz, was in diesem Fall das Maximum für das verwendete FPGA ist. Der icore selbst
+läuft jedoch nur mit einer Frequenz von 50MHz. Da der Beschleuniger seinen Takt mit dem icore teilt, damit die Synchronisierung am einfachsten ist,
+läuft er jedoch sehr viel langsamer, als er eigentlich könnte. Verwendet man einen Takt von 200MHz
+für die Berechnung der Rho-Funktion, die vollständig in den Atom erfolgt und keinerlei Kommunikation benötigt, erhält man eine Beschleunigung von
+$S_{200MHz} = \frac{81\ Takte / 50MHz}{(81\ Takte - 57\ Takte) / 50MHz + 57\ Takte / 200MHz} \thickapprox 2,12$.
+Für die Herkunft der genauen Taktzahlen siehe Tabelle \ref{tab:zeiten_iteration_3}. Auch hier kann wieder nur die Rho-Funktion beschleunigt werden,
+da die Kommunikation zwischen den Atomen durch den i-core wieder durch den 50MHz-Takt beschränkt ist.
+
+\section{Gemessene Beschleunigung}
+Wie bereits erwähnt, sind die entworfenen Beschleuniger strikt deterministisch in der Hinsicht, dass die Dauer der Berechnung immer die selbe Zeit benötigt.
+Daher kann aus den vom Beschleuniger benötigten Takten sowie der Taktfrequenz direkt die Ausführungszeit des Beschleunigers bestimmt werden.
+Bei der Software-Berechnung ist das nicht so einfach möglich, da zum Beispiel Speicherzugriffe aufgrund der Speicherstruktur unterschiedliche Ausführungszeiten benötigen.
+So kann die Anzahl der auftretenden Cache Misses einen großen Einfluss auf die Berechnungsdauer haben. Auch ist nicht klar, ob wirklich jede Operation des Befehlssatzes
+in genau einem Takt ausgeführt werden kann. Durch Datenabhängigkeiten kann es notwendig sein, dass die weitere Abarbeitung auf Ergebnisse vorheriger Instruktionen,
+die sich noch in der Pipeline befinden, warten muss. Die beste Möglichkeit zur Bestimmung der Laufzeit der Software-Berechnung ist daher die tatsächliche Zeitmessung.
+Diese Messung ist natürlich etwas ungenau, weshalb in 5 Durchläufen jeweils 10.000 Iterationen der KECCAK-p-Funktion durchgeführt werden, woraus dann die mittlere Berechnungsdauer bestimmt wird.
+Die Ergebnisse dieser Messungen sowie der berechnete Durchschnitt $\tilde{t}$ sind in Tabelle \ref{tab:software_zeitmessung} aufgeführt.
+\begin{table}
+    \centering
+    \begin{tabular}{lrrrrrr}
+        Messung & 1 & 2 & 3 & 4 & 5 & Durchschnitt ($\tilde{t}$)\\
+        \hline
+        Zeit (s) & 14,505455 & 14,505454 & 14,505463 & 14,505464 & 14,505452 & 14,5054576
+    \end{tabular}
+    \label{tab:software_zeitmessung}
+    \caption{Ausführungszeit der Software-Berechnung}
+\end{table}
+Aus dieser Messung ergibt sich für eine einzige Berechnung der KECCAK-p-Funktion eine Zeit von
+\begin{align*}
+    t_{SW} & = \tilde{t}/10000 = 14,5054576 s / 10000 = 1450,54576 \mu s
+\end{align*}
+Die Ausführungszeit der KECCAK-p-Funktion auf dem finalen Beschleuniger und der daraus resultierende Speedup kann
+mit Hilfe der Tabelle \ref{tab:zeiten_iteration_3} aus dem 50MHz-Takt des icore wie folgt exakt berechnet werden:
+\begin{align*}
+    t_{ACC} & = \frac{2004\ Takte}{50 * 10^6Hz} = 0,00004008s = 40,08 \mu s \\
+    S_{ACC} & = \frac{t_{SW}}{t_{ACC}}\frac{1450,54576 \mu s}{40,08 \mu s} \thickapprox \mathbf{36,2}
+\end{align*}
+
+\section{Theoretische Beschleunigung}
+Neben der tatsächlichen Ausführungszeit auf dem icore wollen wir uns noch eine andere Metrik anschauen, um den Beschleuniger zu bewerten.
+Dazu betrachten wir die Anzahl an elementaren Operationen, die die Software auf einem virtuellen System benötigt, um die KECCAK-p-Funktion zu berechnen.
+Als elementare Operationen zählen dabei Instruktionen, von denen man erwarten kann, dass sie von jedem modernen Prozessor in jeweils einem Takt berechnet werden können.
+Als solche Instruktionen zählen in diesem Fall XODER, UND, ODER, NEGATION (NEG), das Kopieren, eine Rotation um ein Bit nach links (ROL) sowie ein Bitshift variabler Länge.
+Weiter unterschieden werden muss allerdings zwischen 32-Bit- und 64-Bit-Operationen. In der Tabelle \ref{tab:software_instruktionen} ist
+die Anzahl der jeweils benötigten 64-Bit-Operationen aufgeführt, die für die einzelnen Teilfunktionen von KECCAK-p benötigt werden, die sich aus insgesamt 24 Runden zusammensetzt.
+Die Anzahl an benötigten 32-Bit-Operationen ist dann doppelt so groß. Eine 64-Bit-Rotation variabler Länge, wie sie von Rho verwendet wird,
+ist dabei, wie auch in der Implementierung in \comment{Anhang 1} beschrieben, aus zwei Shifts und einem ODER zusammengesetzt.
+Außerdem werden sämtliche Operationen, die nicht direkt zur die für die Ergebnisberechnung dienen,
+wie zum Beispiel Zählvariablen oder Indexberechnungen für Felder, ignoriert.
+\begin{table}
+    \centering
+    \begin{tabular}{lrrrrrrrr}
+        & XODER & UND & ODER & NEG & Kopie & ROL & Shift & Gesamt \\
+        \hline
+        Theta & 50 & 0 & 0 & 0 & 0 & 5 & 0 & 55 \\
+        Rho-Pi & 0 & 0 & 24 & 0 & 49 & 0 & 48 & 121 \\
+        Chi & 25 & 25 & 0 & 25 & 25 & 0 & 0 & 100 \\
+        Iota & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 1 \\
+        Rnd & 76 & 25 & 24 & 25 & 74 & 5 & 48 & 277\\
+        KECCAK-p & 1824 & 600 & 576 & 600 & 1776 & 120 & 1152 & 6648
+    \end{tabular}
+    \label{tab:software_instruktionen}
+    \caption{Instruktionen der Software-Funktionen}
+\end{table}
+Da wir gefordert haben, dass jede dieser Operationen in jeweils einem Takt berechnet können werden soll,
+ergibt sich aus der Anzahl der Operatonen auch gleich die Anzahl der benötigten Takte.
+Auf diese Weise können wir wieder einen Speedup für den Beschleuniger berechnen, indem wir die benötigten Operationen
+der Software mit den benötigten Takten des Beschleunigers vergleichen. Hier können auch alle Entwürfe einbezogen werden,
+da wir für unsere virtuelle Umgebung keine Begrenzungen für die Größe der Beschleuniger vorgegeben haben und somit der Vergleich auch sinnvoll ist.
+In Tabelle \ref{tab:theoretischer_speedup} ist sowohl der theoretische Speedup sowohl bezüglich 32-Bit- als auch 64-Bit-Operationen aufgeführt.
+\begin{table}
+    \centering
+    \begin{tabular}{lrr}
+        & 32-Bit-Speedup & 64-Bit-Speedup \\
+        \hline
+        1. Entwurf & 229,24 & 114,62 \\
+        2. Entwurf & 24,49 & 12,25 \\
+        3. Entwurf & \textbf{6,63} & 3,32
+    \end{tabular}
+    \label{tab:theoretischer_speedup}
+    \caption{Theoretischer Speedup der verschiedenen Entwürfe}
+\end{table}
+Dieser theoretische Speedup beschreibt den Faktor, wie viel der tatsächlichen Berechnung der Beschleuniger in jedem Schritt mehr erledigt,
+als die Software es im Optimalfall tut. Vergleicht man den theoretischen Speedup mit dem gemessenen Speedup, so stellt man fest,
+dass der gemessene Speedup des finalen Entwurfs mit 36,2 um einen Faktor 5,46 größer ist als der theoretische Speedup von 6,63
+(wir verwenden hier den 32-Bit-Speedup, da der icore eine 32-Bit-Plattform ist). Dieser Faktor beschreibt die gewonnene Geschwindigkeit,
+die dadurch entsteht, dass der Beschleuniger keine Kontrollstrukturen wie Schleifen, Speicherzugriffszeiten, oder mehrere Takte für eine Instruktion benötigt.
