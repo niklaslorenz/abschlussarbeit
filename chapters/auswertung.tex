@@ -87,12 +87,12 @@ einer Berechnung von Theta, sowie 24 Berechnungen von Rho und Gamma.
 Der dritte Entwurf des Beschleunigers erfüllt zwar alle geforderten Voraussetzungen, trotzdem lassen sich noch weitere Verbesserungen vornehmen, um die Leistungsfähigkeit zu erhöhen.
 Daher wollen wir uns hier noch ein paar dieser möglichen Optimierungen anschauen.
 
-\subsubsection{Auslagerung der Ergebniskonvertierung}
+\subsection{Auslagerung der Ergebniskonvertierung}
 Das Ergebnismodul nimmt unnötig viel Platz im Atom ein und ist eigentlich nur deshalb in den A-Atomen enthalten, weil der Platz nicht weiter benötigt wird.
 Es lässt sich aber auch in die B-Atome verschieben, die auch die Konvertierung für die Eingabe übernehmen.
 So kann noch ein wenig mehr Platz für andere Optimierungen geschaffen werden, die die Berechnungsgeschwindigkeit weiter verbessern.
 
-\subsubsection{Reduktion auf ein A-Atom}
+\subsection{Reduktion auf ein A-Atom}
 Die Berechnung wurde ursprünglich auf zwei Atome aufgeteilt, damit die Datenmenge reduziert werden kann, die ein Atom halten muss.
 Durch die Verwendung des BRAM für den Datenspeicher fällt dieser Aufwand weg, da der BRAM mehr als genug Platz bereitstellt.
 Ein Beschleuniger, der nur ein A-Atom verwendet, bietet vor allem den Vorteil, dass für die Konvertierung der Eingabedaten auch nur ein B-Atom benötigt wird.
@@ -103,7 +103,7 @@ Die Reduktion auf ein A-Atom alleine bringt jedoch keine direkte Leistungsverbes
 würde die Reduktion alleine die Berechnungszeit etwa verdoppeln. Auch das Einlesen der Datenblöcke dauert länger, da der gesamte Block in ein einziges Atom übertragen werden muss,
 was wiederum durch die Kommunikationsschnittstelle beschränkt ist. 
 
-\subsubsection{Erweiterung der BRAM-Schnittstelle}
+\subsection{Erweiterung der BRAM-Schnittstelle}
 Aktuell können an einem Port des BRAM immer jeweils zwei Tiles gleichzeitig gelesen und geschrieben werden.
 Die Erweiterung der Speicherschnittstelle auf zum Beispiel 4 Tiles erlaubt es,
 eine größere Menge an Tiles gleichzeitig für die Berechnung von Rho bereit zu stellen.
@@ -115,7 +115,7 @@ Diese kann durch die Erweiterung der Speicherschnittstelle nicht weiter beschleu
 da sie die Kommunikationsschnittstelle zwischen den Atomen bereits den limitierende Faktor darstellt.
 Unklar ist noch, ob der vorhandene Plat für diese Optimierung ausreicht.
 
-\subsubsection{Erweiterung des Rho-Puffers}
+\subsection{Erweiterung des Rho-Puffers}
 Möchte man wie oben beschrieben den Beschleuniger auf ein Atom reduzieren, kann auch der Rho-Puffer,
 in dem die Bit-Rotationen blockweise auf mehreren Lanes gleichzeitig durchgeführt werden, erweitert werden.
 Im aktuellen Entwurf ist das nicht mehr möglich, da genau eine Links- und eine Rechtsrotation auf
@@ -126,7 +126,7 @@ Findet jedoch die gesamte Berechnung nur in einem Atom statt, sind für die voll
 zwei Links- und zwei Rechts-Rotationen notwendig. Erweitert man den Puffer, sodass jeweils die beiden Links- und die beiden Rechts-Rotationen
 zusammengelegt werden können, kann dadurch verhindert werden, dass die Berechnung der Rho-Funktion länger dauert.
 
-\subsubsection{Auslagerung der Rho-Berechnung}
+\subsection{Auslagerung der Rho-Berechnung}
 Es ist zu erwarten, dass die Erweiterung des Rho-Puffers viel zusätzlichen Platz in Anspruch nehmen wird.
 Sollte das Atom dadurch die maximale Größe überschreiten, kann eventuell ein Teil der Berechnung von Rho in ein anderes Atom wieder ausgelagert werden.
 Aktuell werden in jedem Takt jeweils 4 Bits aus maximal 7 Lanes, also maximal 28 Bit in den Puffer geschrieben und gleichzeitig gelesen.
@@ -135,7 +135,7 @@ wenn man auch die BRAM-Schnittstelle wie oben beschrieben erweitert. Jenachdem w
 sodass der Beschleuniger trotzdem nur aus zwei Atomen besteht. Das B-Atom würde dann während der Berechnung von Rho mit dem A-Atom zusammenarbeiten und
 zwischendurch den nächsten Datenblock einlesen.
 
-\subsubsection{Erhöhung der Berechnungsfrequenz}
+\subsection{Erhöhung der Berechnungsfrequenz}
 Der Beschleuniger selbst erlaubt eine Taktfrequenz von 200MHz, was in diesem Fall das Maximum für das verwendete FPGA ist. Der icore selbst
 läuft jedoch nur mit einer Frequenz von 50MHz. Da der Beschleuniger seinen Takt mit dem icore teilt, damit die Synchronisierung am einfachsten ist,
 läuft er jedoch sehr viel langsamer, als er eigentlich könnte. Verwendet man einen Takt von 200MHz

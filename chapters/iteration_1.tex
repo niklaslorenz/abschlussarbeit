@@ -1,6 +1,6 @@
 \section{Erste Iteration}
-
 \subsection{Entwurfsziele}
+
 Die Architektur gibt eine maximale Größe von 1600 LUTs für seine Beschleunigerblöcke vor und ein Beschleuniger kann aus maximal 5 solcher Blöcke bestehen.
 Weiterhin permutiert die Keccak-Funktion ein 1600 Bit breites Feld, wobei jedes Bit von vielen anderen Bits an verschiedenen Stellen im Feld abhängt.
 Da die verschiedenen Blöcke nicht beliebig miteinander kommunizieren können, sondern nur über eine taktsynchrone Schnittstelle mit sehr begrenzter Bandbreite,
@@ -19,7 +19,7 @@ das die Ausgabe dieser Schaltung speichert und wieder als Eingabe bereit stellt.
 [Bild hier + Beschreibung]
 
 \subsection{Bewertung}
-Letztendlich besteht der erste Entwurf aus [circa 3500 LUTs, Zahl muss noch präzisiert werden] ohne Kommunikationslogik.
+Letztendlich besteht der erste Entwurf aus \comment{circa 3500 LUTs, Zahl muss noch präzisiert werden} ohne Kommunikationslogik.
 Die Zahl setzt sich aus ungefähr 1600 LUTS für das Speichern der Daten zusammen und der Rest wird von der kombinatorischen Rundenfunktion benötigt.
 Das ist zwar noch etwa doppelt so groß wie das finale Design am Ende sein soll, aber mit ein paar Anpassungen kann die größe potentiell weiter reduziert werden.
 
@@ -43,11 +43,30 @@ dass sie Lane-orientiert arbeitet. Die Rundenfunktion Rnd(r) = Iota(r) . Chi . P
 die den Datenblock wiederum in jeweils mehreren Schritten verarbeiten. Weiterhin sollen allerdings so viele Teilfunktionen wie möglich
 zusammengefasst werden können, um die benötigte Anzahl an Schritten zu minimieren. Durch Abrollen der Permutationsfunktion lässt sich diese Anzahl auf zwei reduzieren.
 Rollt man die Permutationsfunktion
-KECCAK-P = .[r = 0 ... 23] Rnd(r)
-einmal ab, so erhält man nach Einsetzen der Definition von Rnd(r):
-KECCAK-P = Iota(23) . Chi . Pi . Rho . Theta . (.[r = 0 ... 22] Iota(r) . Chi . Pi . Rho . Theta)
-Dies erlaubt folgende äquivalente Schreibweise:
-KECCAK-P = Iota(23) . Chi . Pi . Rho . (.[r = 0 ... 22] Theta . Iota(r) . Chi . Pi . Rho) . Theta
+einmal ab, so erhält man nach Einsetzen der Definition von $Rnd_r$:
+\begin{align*}
+    \text{KECCAK-p} & = \bigcomp_{r = 0}^{23} Rnd_r = \bigcomp_{r = 0}^{23} \iota_r \circ \chi \circ \pi \circ \rho \circ \theta \\
+    & = \iota_{23} \circ \chi \circ \pi \circ \rho \circ \theta \circ (\bigcomp_{r = 0}^{22} \iota_r \circ \chi \circ \pi \circ \rho \circ \theta) \\
+    & = \iota_{23} \circ \chi \circ \pi \circ \rho \circ (\bigcomp_{r = 0}^{22} \theta \circ \iota_r \circ \chi \circ \pi \circ \rho) \circ \theta
+\end{align*}
+
+\begin{align*}
+    \alpha_r & \coloneq \iota_r \circ \chi \circ \pi \\
+    \beta_r & \coloneq \theta \circ \alpha_r \\
+    \text{KECCAK-p} & = \alpha_{23} \circ \rho \circ (\bigcomp_{r = 0}^{22} \beta_r \circ \rho) \circ \theta
+\end{align*}
+
+\begin{align*}
+    \gamma_r & = 
+    \begin{cases}
+        \theta & , r = -1 \\
+        \alpha_{23} & , r = 23 \\
+        \beta_r & , \text{sonst}
+    \end{cases} \\
+    \text{KECCAK-p} & = \gamma_{23} \circ \rho \circ (\bigcomp_{r = 0}^{22} \gamma_r \circ \rho) \circ \gamma_{-1} \\
+    & = (\bigcomp_{r = 0}^{23} \gamma_r \circ \rho) \circ \gamma_{-1}
+\end{align*}
+
 Anmerkung: Diese Schreibweise ist deshalb äquivalent, weil Theta nicht vom Rundenindex r abhängt.
 Mit Definition des Slice-orientierten Schlusses Alpha(r) = Iota(r) . Chi . Pi . Rho sowie dem Slice-orientierten Schleifenteil
 Beta(r) = Theta . Alpha(r)
@@ -58,10 +77,6 @@ genau einmal in Logik umgesetzt werden muss wie Schaubild [Schaubild Nr] zeigt.
 Mit Gamma(r) =  Theta   | r = -1
 				Alpha	| r = 23
 				Beta(r) | sonst
-und Delta(r) =  Gamma(r)		| r = -1
-				Gamma(r) . Rho  | sonst  
-fällt die Permutationsfunktion zusammen auf
-KECCAK-P = .[r = -1 ... 23] Delta(r)
 
 [Schaubild zur Implementierung von Gamma und Delta]
 
@@ -113,7 +128,7 @@ Einzig für das Ergebnis ist ein Spalten-orthogonales Muster vorteilhaft, da das
 \subsubsection{4 Block Muster}
 [Schaubild]
 Für die Aufteilung in 4 Blöcke können so die vorherigen Muster mehrfach angewendet oder auch miteinander kombiniert werden.
-Der Speicheraufwand sinkt hier zwar auf etwa 25% der gesammten Datenmenge, jedoch ist der zu erwartende Gewinn an LUTs nicht mehr so groß wie vom Schritt von 1 auf 2 Atome.
+Der Speicheraufwand sinkt hier zwar auf etwa 25\% der gesammten Datenmenge, jedoch ist der zu erwartende Gewinn an LUTs nicht mehr so groß wie vom Schritt von 1 auf 2 Atome.
 Zudem steigt der Kommunikationsaufwand deutlich an, was nicht nur eine erhöhte Ausführungszeit mit sich bringt, sondern auch wieder mehr Platz im Atom benötigt.
 
 Für den zweiten Entwurf soll daher das 2 Block Spalten-orthogonale Muster verwendet werden, da das Kommunikationsprotokoll am wenigsten komplex ist.
