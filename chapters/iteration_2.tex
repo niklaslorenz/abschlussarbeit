@@ -15,12 +15,6 @@ Ziel des Entwurfs ist es die bisherigen Überlegungen zu testen und sicher zu st
 	\label{fig:aufbau_iteration_2}
 \end{figure}
 \subsection{Aufbau}
-\begin{figure}
-	\center
-	\includegraphics{images/Datenaufteilung_Iteration_2.pdf}
-	\caption{Aufteilung des Datenblocks}
-	\label{fig:datenaufteilung}
-\end{figure}
 Der Beschleuniger ist in zwei Atome aufgeteilt (Abb. \ref{fig:aufbau_iteration_2}), die jeweils einen Teil des Datenblocks speichern. Beide Atome sind gleich aufgebaut, erst über ein Bit im Kontrollvektor,
 den sogenannten \textbf{Atom-Index}, wird festgelegt als welcher Teil des Beschleunigers ein Atom arbeitet. Die Daten sind dabei spaltenorthogonal aufgeteilt, sodass die Lanes 0 bis 12 in Atom 0,
 und die Lanes 12 bis 24 in Atom 1 gespeichert werden (Abb. \ref{fig:datenaufteilung}). Die Lane 12 wird dabei absichtlich doppelt gespeichert,

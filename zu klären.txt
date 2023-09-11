@@ -1,6 +1,7 @@
 atom-typ
 atom
 atom-index
+slice
 Hashfunktion : Vor Kapitel 3 - SHA3
 Schwammkonstruktion : In Einleitung von Kapitel 3
 

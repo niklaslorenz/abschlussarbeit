@@ -101,35 +101,3 @@ Für die Ausgabe des Ergebnisses werden alle 64 Tiles im Atom A0 vom Ergebnismod
 Als letztes werden diese Ergebnisbits als Lanes ausgegeben und im externen Speicher als Endergebnis gespeichert.
 
 \subsection{Bewertung}
-
-\subsection{Weitere Optimierungsansätze}
-
-\subsubsection{Auslagerung der Ergebniskonvertierung}
-Das Ergebnismodul nimmt unnötig viel Platz im Atom ein und ist eigentlich nur deshalb in den A-Atomen enthalten, weil der Platz nicht weiter benötigt wird.
-Es lässt sich aber auch in die B-Atome verschieben, die auch die Konvertierung für die Eingabe übernehmen auf Kosten eines weiteren Kommunikationsschrittes.
-So kann noch ein wenig Platz für weitere Optimierungen geschaffen werden, die mit ein wenig mehr Platz die Berechnungsgeschwindigkeit wieder verbessern.
-
-\subsubsection{Reduktion auf 1 Atom}
-Die Berechnung wurde ursprünglich auf zwei Atome aufgeteilt, damit die Datenmenge reduziert werden kann, die ein Atom halten muss.
-Durch die Einführung des BRAM fällt diese Optimierung weg, da der BRAM mehr als genug Platz bereitstellt.
-
-\subsubsection{Erweiterung des Speicherinterfaces auf mehr Tiles}
-Die Aufteilung des Speichers in zum Beispiel 4 Tiles erlaubt es eine größere Menge an Tiles gleichzeitig für die Berechnung von Rho bereit zu stellen.
-Da in einem zwei Atom Ansatz die Gamma-Funktion durch die Bandbreite des Datenkanals begrenzt ist, würde dieser Teil keine Beschleunigung erfahren.
-In einem Ein-Atom-Ansatz hingegen würden allerdings auch hier noch mehr Slices gleichzeitig berechnet werden können.
-
-\subsubsection{Erweiterung des Rho-Puffers}
-Durch 1 Atom Ansatz müssen alle Lanes in einem Atom berechnet werden, kann der Puffer erweitert werden oder braucht das zu viel Platz?
-Müssen mehr als 2 Rotationen durchgeführt werden?
-
-\subsubsection{Auslagerung der Rho-Berechnung}
-Auch wenn alle Daten in einem Atom gespeichert werden, könnte es sinnvoll sein, die Berechnung von Rho auf verschiedene Atome zu verteilen.
-[Schaubild]. So können beim Filtern der Lanes die restlichen Lanes an ein anderes Atom übertragen werden, das die Rotation durchführt.
-So kann die Größenbeschränkung des Puffers umgangen werden. Wird auch dieser Prozess durch eine Pipeline realisiert, beträgt die maximale Bandbreite hierfür
-max k s.t. k * 7 <= 32
-=> k = 4 Slices. Wird der Puffer im Hauptatom noch ein wenig erweitert, sodass maximal 6 Lanes gleichzeitig ausgelagert werden müssen, so steigt die Bandbreite sogar
-auf 5 Slices. Da allerdings immer zwei Ports für die Zusammensetzung der Daten verantwortlich sind, müssten immer 6 Slices gleichzeitig gelesen werden und die
-Restlichen in einem weiteren Puffer zwischengehalten werden was die Komplexität weiter erhöht. Außerdem ist ein solcher Ansatz nicht mehr symmetisch,
-heißt es kann nicht der gleiche Beschleuniger auf beide Atome geladen werden.
-
-\subsubsection{Erhöhung der Berechnungsfrequenz (Nutzung der fallenden Taktflanken)}
