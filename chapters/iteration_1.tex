@@ -41,6 +41,7 @@ Insgesamt ist der Entwurf damit ungefähr doppelt so groß wie es die Architektu
 mit denen die Größe des Beschleunigers angepasst werden kann.
 
 \subsection{Optimierungsansätze}
+\label{cha:iteration_1_optimierungen}
 Die naheliegendste Möglichkeit zur Verbesserung des Platzbedarfs besteht darin den Speicheraufwand zu reduzieren, da dieser zwar viel Platz einnimmt,
 aber an der Berechnung selbst nicht teilnimmt. Das Speichern der Daten außerhalb des Beschleunigers ist alleine betrachtet leider keine Option, da zur Berechnung der Rundenfunktion
 ja der Gesamte Datenblock im Atom wieder vorliegen muss. Um mit weniger Daten auf einmal arbeiten zu können, muss daher zuerst die Rundenfunktion in kleinere
@@ -139,7 +140,7 @@ Weiterhin wäre es schön, wenn die verschiedenen Blöcke allesamt symmetrisch, 
 und über ein Kontrollsignal wird am Anfang der Ausführung bestimmt für welchen Teil der Daten ein Atom verantwortlich ist.
 Dadurch ist der Beschleuniger leichter zu testen. Im Folgenden werden wir uns ein paar der naheliegendsten Aufteilungsmuster anschauen.
 
-\subsubsection{2-Block Lane-orthogonal}
+\subsubsection{2-Block Lane-orthogonale Aufteilung}
 \begin{figure}
     \center
     \includegraphics{images/Laneorthogonal.pdf}
@@ -152,7 +153,8 @@ da die Theta-Funktion für jeden Slice auch den benachbarten linken Slice benöt
 da jede Lane durch Rho unterschiedlich weit rotiert wird. Es muss also im Kommunikationsprotokoll für jede Lane extra festgelegt welche Bits genau in welchem
 Takt ausgetauscht werden.
 
-\subsubsection{2-Block Spalten-orthogonal}
+\subsubsection{2-Block Spalten-orthogonale Aufteilung}
+\label{cha:iteration_1_optimierungen_spaltenorthogonal}
 \begin{figure}
     \center
     \includegraphics{images/Spaltenorthogonal.pdf}
@@ -163,9 +165,9 @@ Spaltet man die Daten entlang der Lanes wie in Abbildung \ref{fig:2_block_spalte
 einmal zwischen den Atomen ausgetauscht werden. Die Berechnung kann allerdings weiterhin parallel erfolgen. Auch die Rho-Funktion kann
 parallel berechnet werden und benötigt keinerlei Kommunikation.
 
-\subsubsection{Anmerkung zu Reihen-orthogonalen Mustern}
-Die Gamma-Funktion benötigt ganze Slices für die Berechnung, wenn ein Slice in einem Schritt berechnet werden soll. Daher bestehen für Reihen-orthogonale Aufteilungsmuster exakt die gleichen
-Vor- und Nachteile wie für Spalten-orthogonale Muster.
+\subsubsection{Anmerkung zu Zeilen-orthogonalen Mustern}
+Die Gamma-Funktion benötigt ganze Slices für die Berechnung, wenn ein Slice in einem Schritt berechnet werden soll.
+Daher bestehen für Zeilen-orthogonale Aufteilungsmuster exakt die gleichen Vor- und Nachteile wie für Spalten-orthogonale Muster.
 Einzig für das Ergebnis ist ein Spalten-orthogonales Muster vorteilhaft, da das Endergebnis aus den ersten 4 Lanes besteht und nur dort alle 4 Lanes in einem Atom enthalten sind.
 
 \subsubsection{4-Block Muster}
