@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-07-12T14:28:56.119Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 OPR/99.0.0.0 (Edition std-1)" etag="_1LF0Q0jJFKkj2HAritS" version="21.6.2" type="device">
+<mxfile host="app.diagrams.net" modified="2023-09-12T20:27:47.441Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36 OPR/101.0.0.0" etag="5Rc4iQASSbzhXhZzeoM8" version="21.7.4" type="device">
   <diagram name="Seite-1" id="wWX4hy-cS7ZLcePuUyz8">
-    <mxGraphModel dx="796" dy="438" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="796" dy="455" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -91,7 +91,7 @@
         <mxCell id="wk0iH-n_84iP2YraqdYm-2" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="wk0iH-n_84iP2YraqdYm-6" vertex="1">
           <mxGeometry width="40" height="120" as="geometry" />
         </mxCell>
-        <mxCell id="wk0iH-n_84iP2YraqdYm-3" value="GAM Speicher" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;rotation=-90;" parent="wk0iH-n_84iP2YraqdYm-6" vertex="1">
+        <mxCell id="wk0iH-n_84iP2YraqdYm-3" value="GAM-Speicher" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;rotation=-90;" parent="wk0iH-n_84iP2YraqdYm-6" vertex="1">
           <mxGeometry x="-30" y="45" width="100" height="30" as="geometry" />
         </mxCell>
         <mxCell id="wk0iH-n_84iP2YraqdYm-7" value="" style="group;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1" connectable="0">
@@ -100,7 +100,7 @@
         <mxCell id="wk0iH-n_84iP2YraqdYm-8" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="wk0iH-n_84iP2YraqdYm-7" vertex="1">
           <mxGeometry width="40" height="120" as="geometry" />
         </mxCell>
-        <mxCell id="wk0iH-n_84iP2YraqdYm-9" value="RES Speicher" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;rotation=-90;" parent="wk0iH-n_84iP2YraqdYm-7" vertex="1">
+        <mxCell id="wk0iH-n_84iP2YraqdYm-9" value="RES-Speicher" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;rotation=-90;" parent="wk0iH-n_84iP2YraqdYm-7" vertex="1">
           <mxGeometry x="-30" y="45" width="100" height="30" as="geometry" />
         </mxCell>
         <mxCell id="wk0iH-n_84iP2YraqdYm-14" value="Lese-Bus" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#DAE8FC;strokeColor=#6c8ebf;" parent="1" vertex="1">
@@ -121,7 +121,7 @@
         <mxCell id="wk0iH-n_84iP2YraqdYm-23" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="wk0iH-n_84iP2YraqdYm-22" vertex="1">
           <mxGeometry width="40" height="120" as="geometry" />
         </mxCell>
-        <mxCell id="wk0iH-n_84iP2YraqdYm-24" value="Rho Puffer" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;rotation=-90;" parent="wk0iH-n_84iP2YraqdYm-22" vertex="1">
+        <mxCell id="wk0iH-n_84iP2YraqdYm-24" value="Rho-Puffer" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;rotation=-90;" parent="wk0iH-n_84iP2YraqdYm-22" vertex="1">
           <mxGeometry x="-30" y="45" width="100" height="30" as="geometry" />
         </mxCell>
         <mxCell id="6OD95VWLQBUyB5z18gfU-3" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="wk0iH-n_84iP2YraqdYm-22" vertex="1">
@@ -187,7 +187,7 @@
             <mxPoint x="530" y="320" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="wk0iH-n_84iP2YraqdYm-55" value="Zustandsautomat" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
+        <mxCell id="wk0iH-n_84iP2YraqdYm-55" value="Manager" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
           <mxGeometry x="440" y="120" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="wk0iH-n_84iP2YraqdYm-56" value="" style="endArrow=classic;html=1;rounded=0;" parent="1" edge="1">
@@ -311,6 +311,30 @@
           <mxGeometry x="0.6429" relative="1" as="geometry">
             <mxPoint x="-6" y="-10" as="offset" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="GTIrJqN6xhQ-Suoffd3J-1" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="190" y="429.99999999999994" width="10" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="GTIrJqN6xhQ-Suoffd3J-2" value="BRAM-Einheiten" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="200" y="429.99999999999994" width="130" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="GTIrJqN6xhQ-Suoffd3J-3" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="190" y="449.99999999999994" width="10" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="GTIrJqN6xhQ-Suoffd3J-4" value="Berechnungseinheiten" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="200" y="449.99999999999994" width="130" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="GTIrJqN6xhQ-Suoffd3J-5" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="340" y="429.99999999999994" width="10" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="GTIrJqN6xhQ-Suoffd3J-6" value="Zustandsautomat" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="350" y="429.99999999999994" width="130" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="GTIrJqN6xhQ-Suoffd3J-7" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="340" y="449.99999999999994" width="10" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="GTIrJqN6xhQ-Suoffd3J-8" value="Infrastruktur" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="350" y="449.99999999999994" width="130" height="10" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
