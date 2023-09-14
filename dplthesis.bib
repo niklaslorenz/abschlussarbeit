@@ -1,10 +1,70 @@
-@book{warren2003hacker,
-  title={Hacker's Delight},
-  author={Warren, H.S.},
-  isbn={9780201914658},
-  lccn={2002066501},
-  url={http://books.google.de/books?id=iBNKMspIlqEC},
-  year={2003},
-  publisher={Addison-Wesley},
-  pages = {p. 73},
+
+@InProceedings{rogaway2004crypto,
+author="Rogaway, Phillip
+and Shrimpton, Thomas",
+editor="Roy, Bimal
+and Meier, Willi",
+title="Cryptographic Hash-Function Basics: Definitions, Implications, and Separations for Preimage Resistance, Second-Preimage Resistance, and Collision Resistance",
+booktitle="Fast Software Encryption",
+year="2004",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="371--388",
+abstract="We consider basic notions of security for cryptographic hash functions: collision resistance, preimage resistance, and second-preimage resistance. We give seven different definitions that correspond to these three underlying ideas, and then we work out all of the implications and separations among these seven definitions within the concrete-security, provable-security framework. Because our results are concrete, we can show two types of implications, conventional and provisional, where the strength of the latter depends on the amount of compression achieved by the hash function. We also distinguish two types of separations, conditional and unconditional. When constructing counterexamples for our separations, we are careful to preserve specified hash-function domains and ranges; this rules out some pathological counterexamples and makes the separations more meaningful in practice. Four of our definitions are standard while three appear to be new; some of our relations and separations have appeared, others have not. Here we give a modern treatment that acts to catalog, in one place and with carefully-considered nomenclature, the most basic security notions for cryptographic hash functions.",
+isbn="978-3-540-25937-4"
+}
+
+@misc{sha3-standard,
+  author = {Morris Dworkin},
+  title = {SHA-3 Standard: Permutation-Based Hash and Extendable-Output Functions},
+  year = {2015},
+  month = {2015-08-04},
+  publisher = {Federal Inf. Process. Stds. (NIST FIPS), National Institute of Standards and Technology, Gaithersburg, MD},
+  doi = {https://doi.org/10.6028/NIST.FIPS.202},
+  language = {en},
+}
+
+@inproceedings{Daemen1995CipherAH,
+  title={Cipher and hash function design strategies based on linear and differential cryptanalysis},
+  author={Joan Daemen},
+  year={1995},
+  url={https://api.semanticscholar.org/CorpusID:59642110}
+}
+
+@inproceedings{MaReHo04,
+    author       = {Ueli Maurer and Renato Renner and Clemens Holenstein},
+    title        = {Indifferentiability, Impossibility Results on Reductions, and Applications to the Random Oracle Methodology},
+    editor       = {Moni Naor},
+    booktitle    = {Theory of Cryptography Conference --- TCC 2004},
+    pages        = {21--39},
+    series       = {Lecture Notes in Computer Science},
+    volume       = {2951},
+    year         = {2004},
+    month        = {2},
+    publisher    = {Springer-Verlag},
+}
+
+@inproceedings{indifferentiability,
+  title={On the Indifferentiability of the Sponge Construction},
+  author={Guido Bertoni and Joan Daemen and Micha{\"e}l Peeters and Gilles Van Assche},
+  booktitle={International Conference on the Theory and Application of Cryptographic Techniques},
+  year={2008},
+  url={https://api.semanticscholar.org/CorpusID:17376836}
+}
+
+@misc{quantum_indifferentiability,
+      author = {Jan Czajkowski},
+      title = {Quantum Indifferentiability of SHA-3},
+      howpublished = {Cryptology ePrint Archive, Paper 2021/192},
+      year = {2021},
+      note = {\url{https://eprint.iacr.org/2021/192}},
+      url = {https://eprint.iacr.org/2021/192}
+}
+
+@misc{Keccak11,
+ author = {G. Bertoni{,} J. Daemen{,} M. Peeters and G. Van Assche},
+ title = {{The Keccak reference}},
+ howpublished = {Round 3 submission to NIST SHA-3},
+ year = {2011},
+ url = {http://keccak.noekeon.org/Keccak-reference-3.0.pdf},
 }
