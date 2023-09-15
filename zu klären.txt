@@ -1,6 +1,16 @@
 Kapitel sha3:
     padding
 
+Abkürzungen Kapitel icore:
+	fpga
+	lut
+	clb
+	dsp
+	bram
+	vlcw
+	lsu
+	agu
+
 atom-container
 atom
 atom-index
