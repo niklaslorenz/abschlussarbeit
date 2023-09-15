@@ -1,0 +1,21 @@
+Kryptographische Verfahren wie Verifikation digitaler Daten sind seit jeher wichtig für die Kommunikation auf unsicheren Kanälen.
+Gerade vernetzte Kleinstrechner wie IoT-Geräte sind aufgrund ihrer geringen Leistungsfähigkeit sehr anfällig für Angreifer.
+Verfahren zur Programmverifikation können dem entgegenwirken, benötigen jedoch verhältnismäßig viel Rechenleistung.
+Mit Hilfe spezialisierter Hardware, die die nötigen Aufgaben effizienter ausführt, kann dieser zusätzliche Aufwand reduziert werden.
+Rekonfigurierbare Prozessoren können hier Abhilfe schaffen. Sie erlauben es, kleine Hardwarebeschleuniger zur Laufzeit zu laden,
+wenn sie benötigt werden und rechenintensive Aufgaben zu erledigen. Gleichzeitig müssen sie auch nicht für das spezielle
+Einsatzgebiet angefertigt werden, sondern können nachträglich spezialisiert werden, was auch die Produktionskosten reduziert.
+Des weiteren können die zur Verfügung gestellten Beschleuniger-Blöcke zusätzlich auch für weitere einsatzspezifische Aufgaben verwendet werden.
+In dieser Arbeit wollen wir daher einen Beschleuniger für einen rekonfigurierbaren Prozessor entwickeln, der die Berechnung einer
+kryptographischen Hashfunktion optimiert, dem Herzstück vieler Verifizierungsalgorithmen. Dabei wollen wir uns den i-Core als Prozessorarchitektur
+zunutze machen und konkret eine SHA-3-Hashfunktion für ihn implementieren. SHA-3 ist eine relativ neue Familie an Hashfunktionen,
+die auch in naher Zukunft noch viel Sicherheit verspricht und viele Probleme bisheriger Hashfunktionen verbessert.
+Dazu wollen wir uns zuerst einmal den i-Core, sowie SHA-3 genauer anschauen und einen Einblick in ihre Funktionsweisen erhalten.
+Danach werden wir die Impelemntierung des Beschleunigers in einem iterativen Entwurfsverfahren betrachten. Das Ziel des
+Entwurfsverfahren besteht darin, einen Beschleuniger zu entwickeln, der die Anforderungen der i-Core-Architektur erfüllt
+und möglichst viel seines Leistungspotentials dabei ausschöpft. Daher werden wir uns auch verschiedene Entwürfe anschauen,
+um aufzuzeigen warum einige Einschnitte in der Leistungsfähigkeit notwendig sind, um die Anforderungen des i-Core zu erfüllen
+und mit welchen Ansätzen trotzdem eine möglichst hohe Effizienz beibehalten werden kann. Am Ende werden wir die verschiedenen
+Ansätze untereinander vergleichen und besonders gute Aspekte herausarbeiten, sowie weitere Optimierungsansätze aufzeigen,
+die die Leistungsfähigkeit noch weiter steigern können. Außerdem wollen wir den entworfenen Beschleuniger mit einer
+Software-Implementierung vergleichen und bestimmen wie viel effektiver der Beschleuniger gegenüber der stumpfen Software-Berechnung ist.

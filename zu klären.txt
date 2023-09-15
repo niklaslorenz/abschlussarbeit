@@ -21,3 +21,7 @@ Schwammkonstruktion : In Einleitung von Kapitel 3
 
 Zusammenfassung/Summary = Abstract
 Einleitung max 3 Seiten
+
+Kapitel:
+	- Verwendete Hilfsmittel
+	- Verwandte Arbeiten

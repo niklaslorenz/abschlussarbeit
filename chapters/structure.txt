@@ -6,6 +6,7 @@ Größeneinordnung:
 - Iteration 2: 8 Seiten
 - Iteration 3: 8 Seiten
 - Ergebnisse: 4 Seiten
+- Fazit: 2 Seiten
 - Glossar etc.: 2 Seiten
 Min: 42
 Max: 46
