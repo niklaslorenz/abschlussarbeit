@@ -111,25 +111,27 @@
     \begin{appendices}
 
 		\appendixtitletocon
+		\appendixtitleon
 
-% 		\addcontentsline{toc}{chapter}{Anhänge}
-%   	\input{anhang}
+		\chapter{Software-Implementierung}
+		\input{chapters/anhang1_software_implementierung}
+	\end{appendices}
 
-		\end{appendices}
-
-		\clearpage
-		\phantomsection
-		\addcontentsline{toc}{chapter}{List of tables}
+	\clearpage
+	\phantomsection
+	\addcontentsline{toc}{chapter}{Tabellenverzeichnis}
+	\renewcommand{\listtablename}{Tabellenverzeichnis}
     \listoftables
 
     \clearpage
     \phantomsection
-    \addcontentsline{toc}{chapter}{List of figures}
+    \addcontentsline{toc}{chapter}{Abbildungsverzeichnis}
+	\renewcommand{\listfigurename}{Abbildungsverzeichnis}
     \listoffigures
 
 		\clearpage
 		\phantomsection
-    \addcontentsline{toc}{chapter}{Bibliography}
+    \addcontentsline{toc}{chapter}{Bibliographie}
     \bibliographystyle{alpha}
     \bibliography{dplthesis}
 \end{document}
