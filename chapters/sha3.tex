@@ -179,10 +179,11 @@ Trotzdem eignet sie sich, wie wir sehen werden, um eine sichere Hashfunktion zu 
 da die Art und Weise wie sie verwendet wird, die Nichtinvertierbarkeit nicht benötigt.
 \begin{align*}
     \chi (\textbf{A}) & \coloneq \textbf{A}^\prime \text{ mit } \\
-    \textbf{A}^\prime[x][y] & \coloneq \textbf{A}[x][y] \oplus ((\sim \textbf{A}[(x + 1)\ mod\ 5][y]) * \textbf{A}[(x + 2)\ mod\ 5][y])\ & \forall x = & 0,...,4;\\
+    \textbf{A}^\prime[x][y] & \coloneq \textbf{A}[x][y] \oplus ((\sim \textbf{A}[(x + 1)\ mod\ 5][y]) \wedge \textbf{A}[(x + 2)\ mod\ 5][y])\ & \forall x = & 0,...,4;\\
     && y = & 0,...,4
 \end{align*}
-Die $chi$ invertiert jedes Bit genau dann, wenn sein direkt benachbartes Bit in der Zeile 0 und der direkte Nachbar dessen 1 ist.
+Das Symbol $\wedge$ steht dabei für ein bitweises UND.
+Die $chi$ invertiert also jedes Bit genau dann, wenn sein direkt benachbartes Bit in der Zeile 0 und der direkte Nachbar dessen 1 ist.
 
 \subsubsection{Iota-Unterfunktion}
 \begin{table}
