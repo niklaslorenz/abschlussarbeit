@@ -1,6 +1,6 @@
 \section{Zweiter Entwurf}
 \subsection{Entwurfsziele}
-Ziel des zweiten Entwurfs ist es, die Ideen aus \ref{cha:iteration_1_optimierungen} umzusetzuen und sicherzustellen, dass sie den gewünschten Effekt erzielen.
+Ziel des zweiten Entwurfs ist es, die Ideen aus \ref{cha:iteration_1_optimierungen} umzusetzen und sicherzustellen, dass sie den gewünschten Effekt erzielen.
 Dazu wird der Beschleuniger in zwei Atome aufgeteilt, um die Datenmenge zu reduzieren, die jedes Atom halten muss.
 Für die Aufteilung wird das 2-Block Spalten-orthogonale Muster verwendet (siehe \ref{cha:iteration_1_optimierungen_spaltenorthogonal}).
 Außerdem wird die Standard-Rundenfunktion durch die modifizierte Rundenfunktion aus \ref{cha:iteration_1_modr} abgelöst.
@@ -33,7 +33,7 @@ Dabei kann der Rho-Block die komplette Funktion auf seinem Teil der Daten in ein
 Da für die Berechnung von Gamma auf den Slices immer nur die Hälfte jedes Slices im Atom gespeichert ist, muss die andere Hälfte der Eingabedaten über den Kommunikationskanals
 übertragen werden und auch die Hälfte des Ergebnisses muss wieder zurück übermittelt werden. Um das zu erlauben, wird der Kommunikationskanal in zwei 32-Bit breite Teile eingeteilt.
 Der Datenkanal übermittelt Daten direkt aus dem Speicher und der Ergebniskanal überträgt Ergebnisse der Gamma-Berechnung. Die Kanäle sind wie in Abbildung
-\ref{fig:iteration_2_integration} dargestellt an den Bus der Fabric angebunden. Außerdem kann der Gamma-Block die Informationen zwischenhalten, die notwendig sind,
+\ref{fig:iteration_2_integration} dargestellt an den Bus der Fabric angebunden. Außerdem kann der Gamma-Block die Informationen zwischen halten, die notwendig sind,
 um $\theta$ für den nächsten Slice zu berechnen. Auf diese Weise kann der Kommunikationsaufwand reduziert werden.
 Über den Ausgabeselektor werden aus dem Speicher die Bits ausgewählt, welche Bits aus dem Speicher an die Berechnungseinheiten Rho und Gamma angelegt werden
 und welche Bits über den Datenkanal der Kommunikationsschnittstelle ausgegeben werden. Der Eingabeselektor nimmt Daten aus dem Daten- und Ergebniskanal,
@@ -69,16 +69,16 @@ Hier ist die genaue Abarbeitungsreihenfolge für einen Slice nochmal für textit
 Die erhaltenen Daten werden mit den Daten aus dem Speicher von textit{A0} zu vollständigen Slices kombiniert und der Berechnungseinheit bereitgestellt.
 \item Die Berechnungseinheit berechnet das Ergebnis und gibt es aus.
 \item Das Ergebnis wird in zwei Tiles aufgeteilt. Eines wird im Datenspeicher übernommen und das andere wird am Ergebniskanal angelegt.
-\item Das Erbebnis im Ergebnisbus befinden sich im Register des Ergebniskanals
+\item Das Ergebnis im Ergebnisbus befinden sich im Register des Ergebniskanals
 \item Das Ergebnis trifft bei textit{A1} ein. Gleichzeitig trifft auch das Ergebnis von textit{A1} bei textit{A0} ein.
 Das erhaltene Ergebnis wird im Datenspeicher übernommen.
 \end{enumerate}
 Die maximale Anzahl an Slices, die gleichzeitig in einem Atom berechnet werden kann, ergibt sich in diesem Fall aus der stark beschränkten Bandbreite
-des Kommunikationskanals. In dem 32 Bit breiten Daten-/Ergebniskanal können maximal zwei Tiles in einem Takt übertragen werden.
+des Kommunikationskanals. In dem 32-Bit breiten Daten-/Ergebniskanal können maximal zwei Tiles in einem Takt übertragen werden.
 Um die gesamte $\gamma$-Funktion zu berechnen, muss die oben aufgeführte Berechnungsabfolge also 16 Mal mit jeweils 2 Slices durchgeführt werden.
 Die Berechnung der 7 Schritte wird in einer Pipeline durchgeführt, die zweite Berechnungsabfolge beginnt also nicht erst, wenn die erste Abfolge abgeschlossen ist,
 sondern direkt, nachdem der erste Schritt der vorherigen Abfolge abgeschlossen ist. Dadurch beträgt die Berechnungsdauer aller 16 Ausführungen
-$7 + (16 - 1) = 22$ Schritte. Dabei ist allerdings der Syncronisationsaufwand, wie zum Beispiel der Austausch der Slices 31 und 63, nicht enthalten.
+$7 + (16 - 1) = 22$ Schritte. Dabei ist allerdings der Synchronisationsaufwand, wie zum Beispiel der Austausch der Slices 31 und 63, nicht enthalten.
 
 \subsection{Bewertung}
 Die Ausführungszeit für eine Iteration der modifizierten Rundenfunktion ist mit einem Faktor von 20 wie erwartet deutlich langsamer als die Implementierung des ersten Entwurfs.
@@ -88,7 +88,7 @@ Tatsächlich ist der Entwurf mit seinen 4643 LUTs nochmal um gut 40\% größer. 
 sowie die Komplexität der Speicherzugriffsmuster, die in der Überlegung für das Design nicht bedacht wurden.
 
 \subsubsection{Zustandsautomat}
-Der Zustandsautomat besteht aus einem Iterator, der in jedem Takt hochgezählt wird und anhand dessen die Steuersignale für die anderen Komponenten genertiert werden.
+Der Zustandsautomat besteht aus einem Iterator, der in jedem Takt hochgezählt wird und anhand dessen die Steuersignale für die anderen Komponenten generiert werden.
 Entgegen der ursprünglichen Annahme, dass seine Größe aufgrund der Einfachheit der Aufgabe vernachlässigbar ist, nimmt er in diesem Design über 300 LUTs,
 also etwa 20\% der Maximalgröße von 1600 LUTs ein. Auch wenn sich die konkrete Implementierung noch optimieren lässt, so ist klar geworden,
 dass die weitere Erhöhung der Berechnungskomplexität mit Bedacht durchgeführt werden muss, da der Zustandsautomat dadurch nur noch größer wird.
@@ -96,7 +96,7 @@ dass die weitere Erhöhung der Berechnungskomplexität mit Bedacht durchgeführt
 \subsubsection{Schreib- und Lesemuster}
 Im ersten Entwurf wird der Wert jedes Bits im Register entweder von der Eingabe oder von der Ausgabe der Rundenfunktion bestimmt.
 Im zweiten Entwurf hingegen hängt dieser Wert ab von der Eingabe, des Ergebnisses des Rho-Blocks, des lokalen Ergebnisses des Gamma-Blocks, sowie einem Bit im Ergebnis-Kanal.
-Welches Bit aus dem Ergebniskanal für ein Bit im Datenspeicher bestimmt ist, legt der Zustandsautomat und auch der Atom-Index fest.
+Welches Bit aus dem Ergebniskanal für ein Bit im Datenspeicher bestimmt ist, legen der Zustandsautomat und der Atom-Index fest.
 Diese Auswahlschaltung benötigt schon mehr Platz als die Reduktion der Datenmenge einspart.
 Analog ist auch das Lesen der Daten komplizierter geworden. Für den Gamma-Block und den Datenkanal müssen
 anhand des aktuellen Zustands und des Atom-Indexes aus allen 800 gespeicherten Bits immer ein paar auswählen.
@@ -122,8 +122,8 @@ Das Berechnen der Rho-Funktion auf Tile orientierten Daten kann mit Hilfe mehrer
 Dazu wird die Berechnung in zwei Stufen aufgeteilt. Die erste Stufe berechnet Links-Rotationen um maximal 32 Bits
 und die zweite Stufe berechnet Rechts-Rotationen um maximal 32 Bits. Mit der aktuellen Aufteilung der Daten müssen in beiden Atomen
 maximal sieben Links- bzw. Rechts-Rotationen gleichzeitig durchgeführt werden. Da die Berechnungen der Lanes untereinander unabhängig sind,
-können wir einfach eine Lösung für eine einzelne Lane sieben mal nebeneinander implementieren. Sollte der Platz dafür nicht ausreichen,
-kann die Berechnung auch in noch mehr als zwei Stufen eingeteilt werden, was zwar nochmal mehr Berechnugnszeit, dafür aber weniger Platz benötigt.
+können wir einfach eine Lösung für eine einzelne Lane siebenmal nebeneinander implementieren. Sollte der Platz dafür nicht ausreichen,
+kann die Berechnung auch in noch mehr als zwei Stufen eingeteilt werden, was zwar nochmal mehr Berechnungszeit, dafür aber weniger Platz benötigt.
 Der Pseudocode \ref{fig:iteration_2_leftshift} skizziert, wie eine Links-Rotation einer Lane um eine fixe Distanz $k <= 32$ mit Hilfe eines 32-Bit Schieberegisters
 durchgeführt werden kann.
 \begin{figure}
@@ -154,7 +154,7 @@ Lane shift_left(Lane x, Distance k)
 Die Rechts-Rotation funktioniert genau analog, nur werden die Ein- und Ausgabebits in der anderen Reihenfolge eingelesen / geschrieben;
 Mit diesem Vorgehen kann jede beliebige Rotation um 32 Bits mit nur einem Puffer realisiert werden, wobei jede unterschiedliche
 Distanz ein anderes Bit aus dem Puffer auswählt. Außerdem können auch immer mehrere Bits gleichzeitig gelesen und geschrieben werden,
-indem der Inhaöt des Schieberegisters um mehr als eine Stelle pro Schritt bewegt wird.
+indem der Inhalt des Schieberegisters um mehr als eine Stelle pro Schritt bewegt wird.
 Maximal brauchen wir von diesen Registern sieben Stück. Je mehr sich in den Beschleuniger integrieren lassen,
 desto schneller ist die Berechnung der $\rho$-Funktion. Da die zu lesenden und zu schreibenden Bits jedes Schritts nicht von der Rotations-Distanz
 abhängen, befinden für mehrere Puffer alle benötigten / berechneten Bits immer in den gleichen Tiles.
@@ -167,7 +167,7 @@ dabei bis zu zwei Lese- und Schreibports. Das ist essenziell für die Berechnung
 da durch die Pipeline in jedem Takt sowohl Daten für die eigenen Berechnungen, als auch für die Berechnungen des
 jeweils anderen Atoms gelesen werden müssen und auch die Ergebnisse beider Atome gleichzeitig festgehalten werden müssen.
 Da der Gamma-Block immer zwei Slices gleichzeitig verarbeitet, bietet sich dieses Format auch für die Breite der Speicherports an.
-So können von jedem Port immer zwei Tiles gleichzeitig adressiert werden. Da jeder Atom-Contrainer über insgesammt 3 BRAM Einheiten verfügt,
+So können von jedem Port immer zwei Tiles gleichzeitig adressiert werden. Da jeder Atom Contrainer über insgesamt 3 BRAM Einheiten verfügt,
 können die Ergebnisse der $\gamma$-Funktion auch in einer anderen Einheit gespeichert werden als die Eingabedaten.
 Die $\rho$-Funktion kann tatsächlich quasi inplace in einem BRAM-Block berechnet werden, da der BRAM read-before-write-Zugriffe unterstützt.
 Wird ein Tile k gelesen und liegt das Ergebnis n Takte später vor, so kann es an der Stelle k + n gespeichert werden,

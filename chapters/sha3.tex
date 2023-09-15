@@ -20,7 +20,7 @@ In Tabelle \ref{tab:uebersicht_sha3} sind ein paar wichtige Eigenschaften der un
 Bei einer kryptographischen Hashfunktion handelt es sich um eine Funktion, die zu einer Eingabe beliebiger Länge
 eine Art Prüfsumme mit fixer Länge berechnet, den sogenannten Hash. 
 Es soll einfach sein so einen Hash für eine Eingabe zu berechnen, aber zu einem Hash eine Eingabe zu finden,
-die diesen Hash besiztz, oder eine Nachricht zu verändern, sodass der Hash sich nicht verändert, soll praktisch nicht möglich sein.
+die diesen Hash besitzt, oder eine Nachricht zu verändern, sodass der Hash sich nicht verändert, soll praktisch nicht möglich sein.
 Damit eine solche Hashfunktion $H$ als kryptographisch sicher gilt, erwartet man folgende grundlegende Eigenschaften von ihr:
 \begin{enumerate}
     \item Einwegfunktion:\\
@@ -29,7 +29,7 @@ Damit eine solche Hashfunktion $H$ als kryptographisch sicher gilt, erwartet man
     Zu einer gegebenen Nachricht $M$ soll es nicht möglich sein, effizient eine zweite Nachricht $M^\prime$ zu finden,
     die den gleichen Hash besitzt, sodass $H(M) = H(M^\prime)$ gilt.
 	\item Starke Kollisionsresistenz: \\
-    Es soll nicht möglich sein, effizient zwei Nachrichten $M$ und $M^\prime$ zu finden, die den selben Hashwert gesitzen,
+    Es soll nicht möglich sein, effizient zwei Nachrichten $M$ und $M^\prime$ zu finden, die denselben Hashwert besitzen,
     also $H(M) = H(M^\prime)$ \cite{rogaway2004crypto}
 \end{enumerate}
 Ob eine Hashfunktion nun diese Anforderungen erfüllt, hängt davon ab, welche Mächtigkeit man einem Angreifer erlaubt,
@@ -79,7 +79,7 @@ Wie diese genau aussieht und wie sie funktioniert, werden wir später in Abschni
 Als Grundlage für alle SHA3-Funktionen dient eine Instanz der Keccak-Permutationsfamilie KECCAK-p.
 Für eine kryptographische Sicherheitsanalyse betrachtet man in der Regel das asymptotische Laufzeitverhalten eines Angreifers.
 Hierzu benötigt man eine Funktion mit variablem Sicherheitsparameter, damit diese Analyse durchgeführt werden kann.
-Wir interessieren uns hier allerdings nur für die konkrete Instanz mit einem festen Sicherheitsparameter, die vom SHA-3 Standard \cite{sha3-standard}
+Wir interessieren uns hier allerdings nur für die konkrete Instanz mit einem festen Sicherheitsparameter, die vom SHA-3-Standard \cite{sha3-standard}
 für die in Tabelle \ref{tab:uebersicht_sha3} aufgeführten Hashfunktionen festgelegt wird.
 Die genaue Definition mit variablem Sicherheitsparameter ist zum Nachlesen auch im Standard \cite{sha3-standard} aufgeführt.
 Wir wollen uns nun zuerst einmal den Zustandsvektor ein wenig genauer anschauen, auf dem die Permutation arbeitet,
@@ -176,7 +176,7 @@ Im Gegensatz zu allen anderen Unterfunktionen ist Chi ($\chi$) nicht affin-linea
 Interessanterweise ist sie trotzdem invertierbar, solange die Anzahl an Spalten ungerade ist \cite{Daemen1995CipherAH}, in unserem Fall fünf. 
 Das bedeutet, dass die Keccak-p Rundenfunktion sowie die Keccak-p Permutation invertierbar ist.
 Trotzdem eignet sie sich, wie wir sehen werden, um eine sichere Hashfunktion zu konstruieren,
-da die Art und Weise wie sie verwendet wird, die Nicht-Invertierbarkeit nicht benötigt.
+da die Art und Weise wie sie verwendet wird, die Nichtinvertierbarkeit nicht benötigt.
 \begin{align*}
     \chi (\textbf{A}) & \coloneq \textbf{A}^\prime \text{ mit } \\
     \textbf{A}^\prime[x][y] & \coloneq \textbf{A}[x][y] \oplus ((\sim \textbf{A}[(x + 1)\ mod\ 5][y]) * \textbf{A}[(x + 2)\ mod\ 5][y])\ & \forall x = & 0,...,4;\\
@@ -264,7 +264,8 @@ $\mathbin\Vert$ ist dabei die Konkatenation zweier Bitstrings.
 \begin{figure}
     \center
     \includegraphics[scale=0.175]{images/Schwammkonstruktion.png}
-    \caption{Aufbau der Schwammkonstruktion [Cite missing]}
+    \caption{Aufbau der Schwammkonstruktion}
+	(Nachbildung aus \cite{sha3-standard})
     \label{fig:schwammkonstruktion}
 \end{figure}
 Zur Komprimierung der Eingabe verwendet SHA-3 die sogenannte Schwammkonstruktion.
@@ -273,7 +274,7 @@ Dazu wird die Eingabe, wie in Abbildung \ref{fig:schwammkonstruktion} veranschau
 Padding-Funktion in mehrere gleich große Blöcke einer festgelegten Länge aufgeteilt. Die Eingabeblöcke werden
 dann der Reihe nach vom Schwamm "absorbiert". Danach werden auf ähnliche Weise die Ausgabeblöcke aus dem Schwamm "ausgequetscht".
 Diese Ausgabeblöcke werden dann zur finalen Ausgabe zusammengesetzt. Wenn die Ausgabelänge kein Vielfaches der Blocklänge sein sollte, wird der Rest einfach abgeschnitten.
-Die genaue Definition der Schwammkonstruktion über einer Transformation $f$ mit einer Paddingfunktion $pad$ sieht folgendermaßen aus:
+Die genaue Definition der Schwammkonstruktion über einer Transformation $f$ mit einer Padding-Funktion $pad$ sieht folgendermaßen aus:
 
 \begin{align*}
     &\begin{alignedat}[t]{2}
@@ -332,5 +333,5 @@ für einen klassischen Algorithmus von einem Zufallsorakel undifferenzierbar ist
 der Ununterscheidbarkeit. Czajkowski \cite{quantum_indifferentiability} Zeigte außerdem, dass diese Eigenschaft auch für Quantenalgorithmen gilt. Undifferenzierbarkeit von einem Zufallsorakel
 ist eine sehr starke Eigenschaft für kryptographische Systeme, da aus ihr direkt viele Sicherheitseigenschaften folgen \cite{indifferentiability}.
 Damit diese Eigenschaft für SHA-3 gilt, muss allerdings die zugrundeliegende Permutation KECCAK-p ebenfalls undifferenzierbar von einer zufälligen Permutation sein.
-Einen solchen Beweis gibt es bisher nicht. Allerdings ist beweisbar, dass KECCAK-p gegen alle bekannten Angriffe auf andere Hashfunktionen besteht, die zum Beispiel Techniken
+Einen solchen Beweis gibt es bisher nicht. Allerdings ist beweisbar, dass KECCAK-p gegen alle bekannten Angriffe besteht, die zum Beispiel Techniken
 wie die lineare oder differenzielle Kryptoanalyse verwenden \cite{Keccak11}.

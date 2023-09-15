@@ -3,7 +3,7 @@
 Der triviale Ansatz, die KECCAK-p-Funktion direkt in einem riesigen kombinatorischen Netz zu berechnen ist zwar theoretisch am schnellsten,
 jedoch wenig platzeffizient. Da die KECCAK-p-Funktion aus 24 nahezu identischen Runden aufgebaut ist, müsste auch jede einzelne
 ihrer Berechnungen nebeneinander realisiert werden. Da Ein- und Ausgabedaten mit jeweils 1600 Bits in der gleichen Größenordnung liegen
-wie die Größenbeschränkung des icore, ist es deutlich sinnvoller, die Berechnung der Runden nacheinander über dieselbe Realisierung der Rundenfunktion durchzuführen.
+wie die Größenbeschränkung des i-Core, ist es deutlich sinnvoller, die Berechnung der Runden nacheinander über dieselbe Realisierung der Rundenfunktion durchzuführen.
 Ziel dieses Entwurfs ist daher die Implementierung der Rundenfunktion in einem rein kombinatorischen Netz, womit dann in jedem Takt
 jeweils eine Runde berechnet werden kann, bis schließlich die komplette KECCAK-p-Funktion berechnet ist. Die Kommunikationsschnittstelle
 der Atome soll auch rudimentär implementiert werden, sodass das Einlesen und Ausgeben von Daten den dafür vorgesehenen 64-Bit Datenkanal nutzt
@@ -26,7 +26,7 @@ In Abbildung \ref{fig:aufbau_iteration_1} ist der grobe Aufbau des Beschleuniger
 Welche Runde sie berechnen soll, wird vom Zustandsautomaten bestimmt. Das Ergebnis kann nun in den Speicher zurückgeschrieben oder ausgegeben werden,
 wobei der Selektor immer jeweils eine Lane des Ergebnisses an die Ausgabe anlegt. Der Zustandsautomat ist bei der Ausgabe dafür verantwortlich,
 dass der Selektor alle Lanes nacheinander auswählt und somit das gesamte Ergebnis ausgibt. Der Speicher besteht aus 1600 Speicherzellen,
-sodass jedes Bit der Ein-/Ausgabe der Rundenfunktion darin gespeichert werden kann. Jenachdem, ob das Ergebnis der Rundenfunktion oder die Eingabe
+sodass jedes Bit der Ein-/Ausgabe der Rundenfunktion darin gespeichert werden kann. Je nachdem, ob das Ergebnis der Rundenfunktion oder die Eingabe
 in den Beschleuniger übernommen werden soll, muss das entsprechende Bit ausgewählt werden. In Abbildung \ref{fig:speicher_iteration_1} ist eine Speicherzelle
 mit dieser Auswahllogik skizziert. Aus einem State Array $\textbf{A}$ wird das Bit $\textbf{A}[x][y][z]$ in der Speicherzelle $D_{i,z}$ mit $i = 5 * y + x$ gespeichert.
 Der Index i beschreibt also in welcher Lane, und der Index z an welcher Position innerhalb der Lane sich das Bit befindet. Die Kontrollsignale $w_i$ und $w_r$ bestimmen,
@@ -35,21 +35,21 @@ Kontrolllogik (rot) wird am nächsten Takt der Wert in die Speicherzelle geschri
 Die Kontrolllogik muss dabei für jede Lane nur einmal realisiert werden, die Auswahllogik allerdings für jedes der 1600 Bits. 
 
 \subsection{Bewertung}
-Der gesamte Entwurf besteht aus \comment{3314 LUTs}. Davon werden etwa 1600 LUTs für den Datenspeicher verwendet.
+Der gesamte Entwurf besteht aus 3314 LUTs. Davon werden etwa 1600 LUTs für den Datenspeicher verwendet.
 Der Rest wird fast vollständig für die Berechnung der Rundenfunktion benötigt. Der Zustandsautomat und der Ergebnisselektor sind da verhältnismäßig klein.
-Insgesamt ist der Entwurf damit ungefähr doppelt so groß wie es die Architektur des icore vorgibt. Im Folgenden wollen wir uns daher ein paar Verbesserungen anschauen,
+Insgesamt ist der Entwurf damit ungefähr doppelt so groß wie es die Architektur des i-Core vorgibt. Im Folgenden wollen wir uns daher ein paar Verbesserungen anschauen,
 mit denen die Größe des Beschleunigers angepasst werden kann.
 
 \subsection{Optimierungsansätze}
 \label{cha:iteration_1_optimierungen}
-Die naheliegendste Möglichkeit zur Verbesserung des Platzbedarfs besteht darin den Speicheraufwand zu reduzieren, da dieser zwar viel Platz einnimmt,
+Eine naheliegende Möglichkeit zur Verbesserung des Platzbedarfs besteht darin den Speicheraufwand zu reduzieren, da dieser zwar viel Platz einnimmt,
 aber an der Berechnung selbst nicht teilnimmt. Das Speichern der Daten außerhalb des Beschleunigers ist alleine betrachtet leider keine Option, da zur Berechnung der Rundenfunktion
 ja der Gesamte Datenblock im Atom wieder vorliegen muss. Um mit weniger Daten auf einmal arbeiten zu können, muss daher zuerst die Rundenfunktion in kleinere
 Teiloperationen aufgeteilt werden.
 
 \subsubsection{Aufspalten der Rundenfunktion}
 \label{cha:iteration_1_modr}
-Um die Rundenfunktion in mehrere Operationen aufteilen zu können, ist eine genauere Untersuchung der Funktion selbst notwendig, um Teie ausfindig zu machen,
+Um die Rundenfunktion in mehrere Operationen aufteilen zu können, ist eine genauere Untersuchung der Funktion selbst notwendig, um Teile ausfindig zu machen,
 die unabhängig voneinander berechnet werden können. Ziel ist es, möglichst große Abschnitte in der Berechnung zu finden, die die gleiche (oder zumindest sehr ähnliche)
 Operation unabhängig voneinander auf verschiedenen Daten berechnen. Diese Berechnungen können dann sequenziell statt parallel berechnet werden,
 wodurch der benötige Platz reduziert wird. Damit fällt die Aufteilung in die Teilfunktionen aus der Definition der Rundenfunktion $\theta$, $\rho$, $\pi$, $\chi$ und $\iota_r$
@@ -61,10 +61,10 @@ Allerdings lassen sich alle fünf Teilfunktionen in zwei Kategorien einteilen:
         bei denen in der Definition (siehe \ref{cha:sha3_unterfunktionen}) der z-Index nicht groß verändert wird, also $\theta$, $\pi$, $\chi$ und $\iota_r$.
     \item Lane-orientierte Funktionen
         Analog handelt es sich hier um die Funktionen, bei denen jede Lane der Ausgabe nur von einer Lane der Eingabe abhängt.
-        Für die Berechnung gemäß der Definition bedeutet das, dass die Indizes x und y nicht manipuliert werden werden.
+        Für die Berechnung gemäß der Definition bedeutet das, dass die Indizes x und y nicht manipuliert werden.
         Zu den Lane-orientierten Funktionen zählen nur $\rho$ und $\iota_r$.
 \end{enumerate}
-$\iota_r$ zählt hierbei in beide Kategorien, da es sich nur um die Aufaddierung einer Konstanten handelt und somit jedes Bit der Ausgabe nur von einem Bit und einer Konstanten abhängt.
+$\iota_r$ zählt hierbei in beide Kategorien, da es sich nur um das Aufaddieren einer Konstanten handelt und somit jedes Bit der Ausgabe nur von einem Bit und einer Konstanten abhängt.
 Die Rundenfunktion kann so in verschiedene Abschnitte eingeteilt werden, die nur aus Slice-orientierten oder Lane-orientierten Teilfunktionen bestehen.
 Um eine möglichst gute Ausführungsgeschwindigkeit beizubehalten, ist es wichtig, die Anzahl dieser Abschnitte möglichst gering zu halten,
 da so in jedem Abschnitt ein möglichst großer Teil der Berechnung durchgeführt wird. Die Rundenfunktion $Rnd_r$ besitzt drei dieser Abschnitte.
@@ -126,19 +126,19 @@ Daher wollen wir im zweiten Entwurf diesen Ansatz nicht verwenden, werden ihn ab
 \subsubsection{Aufspalten des Beschleunigers}
 Da ein Atom nicht ausreicht um den ganzen Datenblock zusammen mit der Rundenfunktion zu halten, kann der Beschleuniger auch in bis zu 5 Atome aufgeteilt werden,
 wobei jeder Block nur noch einen Teil des Datenblocks hält und auch nur für einen Teil der Daten die modifizierte Rundenfunktion aus \ref{cha:iteration_1_modr} berechnet.
-Da das Ergebnis der Rundenfunktion im allgemeinen auch noch von den Daten anderer Blöcke abhängt, müssen diese Daten über das Interface zwischen den Atomen ausgetauscht werden.
+Da das Ergebnis der Rundenfunktion im Allgemeinen auch noch von den Daten anderer Blöcke abhängt, müssen diese Daten über das Interface zwischen den Atomen ausgetauscht werden.
 Zwei Aspekte sind daher bei der Aufteilung wichtig:
 \begin{enumerate}
-    \item Wie viele Blöcke sind sinnvoll? Mit höherer Anzahl an Blöcken nimmt die Datenmenge ab, die jeder Block speichern muss und da jeder Block über die Implementierung der Rundenfunktion
+    \item Wie viele Atome sind sinnvoll? Mit höherer Anzahl an Atomen nimmt die Datenmenge ab, die jedes Atom speichern muss und da jedes Atom über die Implementierung der Rundenfunktion
     verfügt, kann auch die Berechnung parallel auf den Atomen durchgeführt werden. Leider steigt mit der Anzahl der Atome auch die Menge an Datenabhängigkeiten zwischen den Atomen.
     Es gilt also herauszufinden an welchem Punkt die Kommunikationsschnittstelle zwischen den Atomen zum Bottleneck wird.
     \item Wie werden die Daten am besten auf die Atome aufgeteilt? Die Daten müssen so auf die Atome verteilt werden, dass die Datenabhängigkeiten für die Rundenfunktion möglichst gering sind.
     Jedoch sollte das Muster auch nicht zu kompliziert sein. Für die Übertragung der Daten muss ein Kommunikationsprotokoll festgelegt werden, das bestimmt,
     welche Teile der Daten in welchem Takt ausgetauscht werden. Ist das Muster zu komplex, so benötigt die Implementierung des Protokolls zu viel Platz.
 \end{enumerate}
-Weiterhin wäre es schön, wenn die verschiedenen Blöcke allesamt symmetrisch, also baugleich sind, es würden also alle Atome mit dem gleichen Beschleuniger konfiguriert
+Weiterhin wäre es schön, wenn die Atome allesamt symmetrisch, also baugleich sind, es würden also alle Atome mit dem gleichen Beschleuniger konfiguriert
 und über ein Kontrollsignal wird am Anfang der Ausführung bestimmt für welchen Teil der Daten ein Atom verantwortlich ist.
-Dadurch ist der Beschleuniger leichter zu testen. Im Folgenden werden wir uns ein paar der naheliegendsten Aufteilungsmuster anschauen.
+Dadurch ist der Beschleuniger leichter zu testen. Im Folgenden werden wir uns ein paar der naheliegenden Aufteilungsmuster anschauen.
 
 \subsubsection{2-Block Lane-orthogonale Aufteilung}
 \begin{figure}
@@ -147,8 +147,8 @@ Dadurch ist der Beschleuniger leichter zu testen. Im Folgenden werden wir uns ei
     \caption{Lane-orthogonale Aufteilung des Datenblocks}
     \label{fig:2_block_laneorthogonal}
 \end{figure}
-Spaltet man die Daten wie in Abbildung \ref{fig:2_block_laneorthogonal} gezeigt, sodass jeder Block jeweils 32 der insgesamt 64 Slices enthält,
-so kann jedes Atom sehr einfach die Gamma-Funktion für die von ihm gehaltenen Teil berechnen. Einzig die Slices 31 und 63 müssen ausgetauscht werden,
+Spaltet man die Daten wie in Abbildung \ref{fig:2_block_laneorthogonal} gezeigt, sodass jedes Atom jeweils 32 der insgesamt 64 Slices enthält,
+so kann jedes Atom sehr einfach die Gamma-Funktion für den von ihm gehaltenen Teil berechnen. Einzig die Slices 31 und 63 müssen ausgetauscht werden,
 da die Theta-Funktion für jeden Slice auch den benachbarten linken Slice benötigt. Die Berechnung der Rho-Funktion ist allerdings ein wenig komplizierter,
 da jede Lane durch Rho unterschiedlich weit rotiert wird. Es muss also im Kommunikationsprotokoll für jede Lane extra festgelegt welche Bits genau in welchem
 Takt ausgetauscht werden.
@@ -172,5 +172,5 @@ Einzig für das Ergebnis ist ein Spalten-orthogonales Muster vorteilhaft, da das
 
 \subsubsection{4-Block Muster}
 Für die Aufteilung in 4 Blöcke können so die vorherigen Muster mehrfach angewendet oder auch miteinander kombiniert werden.
-Der Speicheraufwand pro Atom sinkt hier zwar auf etwa 25\% der gesammten Datenmenge, jedoch ist der zu erwartende Gewinn an LUTs nicht mehr so groß wie beim Schritt von 1 auf 2 Atome.
+Der Speicheraufwand pro Atom sinkt hier zwar auf etwa 25\% der gesamten Datenmenge, jedoch ist der zu erwartende Gewinn an LUTs nicht mehr so groß wie beim Schritt von 1 auf 2 Atome.
 Zudem steigt der Kommunikationsaufwand deutlich an, was nicht nur eine erhöhte Ausführungszeit mit sich bringt, sondern auch wieder mehr Platz im Atom benötigt.
