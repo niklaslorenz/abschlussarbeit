@@ -1,0 +1,21 @@
+Für den Entwurf und das Testen des Beschleunigers wurden verschiedene Werkzeuge verwendet.
+Sie sind hier kurz aufgeführt und ihr Nutzen wird kurz erklärt. \\
+Bei \textit{nvc} handelt es sich um einen Open Source Compiler und Simulator für VHDL-Designs.
+Die Designs werden über den LLVM-Zwischencode direkt in Maschinencode übersetzt. Die entstehende
+Simulation entspricht zwar in einigen Details nicht dem Verhalten in der Simulation des 
+in Vivado integrierten Simulators, ist aber durch seine hohe Übersetzungsgeschwindigkeit
+gerade für automatisierte Tests hervorragend. \\
+\textit{GTKWave} ist ein sogenannter Wave Viewer. Mit ihm können die von der Simulation generierten
+Signaldiagramme visualisiert werden, um Fehler im Design zu finden. \\
+Mit \textit{Vivado} können die erstellten Designs für die tatsächlich verwendete Hardware synthetisiert und implementiert werden.
+Es handelt sich um die hauseigene Software von Xilinx und bietet eine große Auswahl an verschiedenen Werkzeugen, die einem beim
+Entwurf und beim Debugging helfen. Auch das Generieren der Bitstreams, die am Ende auf das FPGA geladen werden, können hiermit erzeugt werden. \\
+Als Testplattform für vollständige Integrationstests diente ein \textit{Xilinx VC 707 Board}. Es ist das gleiche Board,
+das auch für den i-Core verwendet wird. \\
+Um Programme für den i-core zu compilieren, wird eine modifizierte Version des BCC-Compilers verwendet.
+Der \textit{BCC-Compiler} ist auf den Leon3 zugeschnitten und um die Spezialinstruktionen des i-Core zu unterstützen,
+wird eine modifizierte Version verwendet. \\
+Zur Generierung der VLCWs, die vom SI Execution Controller benötigt werden, um die Spezialinstruktionen bearbeiten zu können,
+wurde der \textit{BC-Assembler} verwendet. Dieser generiert die VLCWs aus einer Art Assemblersprache. \\
+Mit \textit{GRMON2} können Programme auf dem i-Core ausgeführt werden. Es handelt sich um einen konsolenbasierten Debug-Monitor,
+der verwendet wird, weil er den Leon3 unterstützt.
