@@ -4,7 +4,7 @@ Das konkrete Ziel dieser Arbeit bestand darin einen Beschleuniger zu entwerfen, 
 Daher wird in diesem Kapitel hauptsächlich der i-Core als Vergleich herangezogen für die Ausführung von Software-Implementierungen.
 Außerdem werden wir uns bei der Untersuchung der Ausführungszeiten auf die KECCAK-p-Funktion beschränken,
 da diese den Hauptaufwand darstellt und gerade bei größeren Datenmengen Schritte wie die Initialisierung und das Auslesen des Hashs am Ende vernachlässigbar sind.
-Bei Vergleichen zwischen Beschleunigern mit Software-Berechnungen dient immer die Implementierung aus Anhang 1 (\ref{cha:anhang1}) als Bezug.
+Bei Vergleichen zwischen Beschleunigern mit Software-Berechnungen dient immer die Implementierung aus Anhang \ref{cha:anhang1} als Bezug.
 
 \section{Syntheseergebnisse}
 \begin{table}
@@ -181,7 +181,7 @@ Als solche Instruktionen zählen in diesem Fall XODER, UND, ODER, NEGATION (NEG)
 Weiter unterschieden werden muss allerdings zwischen 32-Bit- und 64-Bit-Operationen. In der Tabelle \ref{tab:software_instruktionen} ist
 die Anzahl der jeweils benötigten 64-Bit-Operationen aufgeführt, die für die einzelnen Teilfunktionen von KECCAK-p benötigt werden, die sich aus insgesamt 24 Runden zusammensetzt.
 Die Anzahl an benötigten 32-Bit-Operationen ist dann doppelt so groß. Eine 64-Bit-Rotation variabler Länge, wie sie von Rho verwendet wird,
-ist dabei, wie auch in der Implementierung in Anhang 1 (\ref{cha:anhang1}) beschrieben, aus zwei Shifts und einem ODER zusammengesetzt.
+ist dabei, wie auch in der Implementierung im Anhang \ref{cha:anhang1} beschrieben, aus zwei Shifts und einem ODER zusammengesetzt.
 Außerdem werden sämtliche Operationen, die nicht direkt zur die für die Ergebnisberechnung dienen,
 wie zum Beispiel Zählvariablen oder Indexberechnungen für Felder, ignoriert.
 \begin{table}

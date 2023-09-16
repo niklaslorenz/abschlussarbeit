@@ -31,6 +31,7 @@
 \usepackage{transparent}
 \usepackage{outlines}
 \usepackage{enumitem}
+\usepackage{tabularx}
 
 \usepackage{cleveref}
 % Note: '\cref' is the normal case and '\Cref' is meant to be used at the beginning of the sentence (there should be no abbreviation at the beginning of the sentence).
@@ -70,6 +71,7 @@
 %----------- Front Matter---------------------------
 % no header / footer, roman page numbers
 \begin{document}
+		
 		\pagenumbering{roman}
 		\input{titlepage}
 
@@ -97,7 +99,8 @@
 		\pagestyle{fancy}
 
 		\phantomsection
-    \addcontentsline{toc}{chapter}{Contents}
+		\renewcommand{\contentsname}{Inhalt}
+		\addcontentsline{toc}{chapter}{Inhalt}
 		\tableofcontents
 		
 		\cleardoublepage
@@ -109,11 +112,13 @@
 		\cleardoublepage
 
     \begin{appendices}
+		\renewcommand\appendixname{Anhang}
 
 		\appendixtitletocon
 		\appendixtitleon
 
 		\chapter{Software-Implementierung}
+		\label{cha:anhang1}
 		\input{chapters/anhang1_software_implementierung}
 	\end{appendices}
 

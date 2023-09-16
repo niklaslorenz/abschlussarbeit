@@ -127,22 +127,24 @@ kann die Berechnung auch in noch mehr als zwei Stufen eingeteilt werden, was zwa
 Der Pseudocode \ref{fig:iteration_2_leftshift} skizziert, wie eine Links-Rotation einer Lane um eine fixe Distanz $k <= 32$ mit Hilfe eines 32-Bit Schieberegisters
 durchgeführt werden kann.
 \begin{figure}
+\lstset{xleftmargin=2em}
 \lstset{language=C}
 \begin{lstlisting}[label={lst:shift_left}]
 Lane shift_left(Lane x, Distance k)
 {
   lane result = 0
   Bit[32] buffer           // Unser Schieberegister, das nur
-						   // mit << 1 geschoben werden darf.
-  
+                           // mit << 1 geschoben werden darf.
+
   for i in 32 to 63 {      // Die oberen 32 Bits der Lane
-	buffer = buffer << 1   // werden nach und nach in den
-	buffer[0] = x[i]       // Puffer geschrieben
+    buffer = buffer << 1   // werden nach und nach in den
+    buffer[0] = x[i]       // Puffer geschrieben
   }
   
   for i in 0 to 63 {       // Aus dem Puffer kann dann
-	r[i] = buffer[k]       // immer an der gleichen Stelle
-	buffer = buffer << 1   // ein Ergebnisbit ausgelesen werden
+    r[i] = buffer[k]       // immer an der gleichen Stelle
+    buffer = buffer << 1   // ein Ergebnisbit
+                           // ausgelesen werden
 	buffer[0] = x[i]
   }
   return result

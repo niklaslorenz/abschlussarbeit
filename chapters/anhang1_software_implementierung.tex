@@ -4,6 +4,7 @@ die viele Optimierungen enthält. Sie wird vom Github-Nutzer \textit{brainhub} \
 Im Folgenden sind die interessanten Segmente der KECCAK-p-Funktion aufgelistet, wobei einige Symbole zur besseren Lesbarkeit umbenannt wurden.
 
 \begin{figure}
+\lstset{xleftmargin=2em}
 \lstset{language=C}
 \begin{lstlisting}[label={lst:keccak_impl_license}]
 MIT License
@@ -37,6 +38,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 \end{figure}
 
 \begin{figure}
+\lstset{xleftmargin=2em}
 \lstset{language=C}
 \begin{lstlisting}[label={lst:keccak_impl_utils}]
 static const uint64_t keccak_rount_constants[24] = {
@@ -72,8 +74,8 @@ static const unsigned keccakf_pi_indices[24] = {
 \label{fig:keccak_impl_utils}
 \end{figure}
 
-
 \begin{figure}
+\lstset{xleftmargin=2em}
 \lstset{language=C}
 \begin{lstlisting}[label={lst:keccak_impl}]
 static void keccak_p(uint64_t stateArray[25]) {
