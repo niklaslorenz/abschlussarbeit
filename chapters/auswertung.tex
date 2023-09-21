@@ -9,12 +9,12 @@ Bei Vergleichen zwischen Beschleunigern mit Software-Berechnungen dient immer di
 \section{Syntheseergebnisse}
 \begin{table}
     \centering
-    \begin{tabular}{lrrrrrr}
-    & A-Atome & B-Atome & LUTs & FFs & kritische Pfadlänge & BRAM Bänke \\
+    \begin{tabular}{lrrrrr}
+    & A-Atome & B-Atome & LUTs & FFs & BRAM Bänke \\
     \hline
-    1. Entwurf & 1 & 0 & 3314 & 1845 & \comment{?} & 0 \\
-    2. Entwurf & 2 & 0 & 4643 & 1865 & \comment{?} & 0 \\
-    3. Entwurf & 2 & 2 & 1205 & 628 & \comment{?} & 2
+    1. Entwurf & 1 & 0 & 3314 & 1845 & 0 \\
+    2. Entwurf & 2 & 0 & 4643 & 1865 & 0 \\
+    3. Entwurf & 2 & 2 & 1205 & 628 & 2
     \end{tabular}
     \label{tab:synth_ergebniss}
     \caption{Interessante Größen der synthetisierten Designs}
@@ -35,7 +35,7 @@ Zur Bestimmung der Ausführungszeit des Beschleunigers verwenden wir hier die Si
 dass auch die vorherigen Entwürfe mit verglichen werden können, die zu groß für den i-Core sind.
 Da alle Entwürfe statisch sind in ihrer Ausführungszeit, die Abarbeitung eines Blocks also immer die gleiche Zeit benötigt,
 liefert diese Herangehensweise genauere Werte als die Zeitmessung es auf dem i-Core tun würde.
-Da die kritischen Pfade aller Entwürfe die Operation auf dem 50MHz Takt des i-Cores zulassen, können die Taktzahlen direkt miteinander verglichen werden, siehe Tabelle \ref{tab:zeiten_alle_iterationen}.
+Da aller Entwürfe den Betrieb auf dem 50MHz Takt des i-Cores zulassen, können die Taktzahlen direkt miteinander verglichen werden, siehe Tabelle \ref{tab:zeiten_alle_iterationen}.
 \begin{table}
     \centering
     \begin{tabular}{lrrr}
