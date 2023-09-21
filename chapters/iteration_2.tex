@@ -113,7 +113,7 @@ um den Beschleuniger aus die erforderliche Größe reduzieren zu können. Um die
 hatten wir die Nutzung der BRAM-Blöcke in den Überlegungen des ersten Entwurfs schon einmal in Erwägung gezogen und uns letztendlich dagegen entschieden,
 weil die Verwendung des BRAM das Festlegen auf eine feste Orientierung der gespeicherten Daten bedeutet. Damit der Gamma-Block einfach wiederverwendet werden kann,
 ist es sinnvoll, die aktuelle Aufteilung der Daten zu berücksichtigen. Die einzig sinnvolle Orientierung des Speichers ist somit Lane-orthogonal,
-Also Daten werden immer als ein ganzzahliges Vielfaches an Tiles gespeichert. So können immer ganze Tiles dem Gamma-Block bereitgestellt werden.
+Die Daten werden also immer als ein ganzzahliges Vielfaches an Tiles gespeichert. So können immer ganze Tiles dem Gamma-Block bereitgestellt werden.
 Da die Rho-Funktion, eigentlich auf Lanes arbeitet, muss dann aber in ihrer Implementierung so angepasst werden, dass sie mit Tiles arbeiten kann.
 
 \subsubsection{Transformation der Rho-Funktion}

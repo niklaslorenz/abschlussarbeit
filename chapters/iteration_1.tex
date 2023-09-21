@@ -150,7 +150,7 @@ Dadurch ist der Beschleuniger leichter zu testen. Im Folgenden werden wir uns ei
 Spaltet man die Daten wie in Abbildung \ref{fig:2_block_laneorthogonal} gezeigt, sodass jedes Atom jeweils 32 der insgesamt 64 Slices enthält,
 so kann jedes Atom sehr einfach die Gamma-Funktion für den von ihm gehaltenen Teil berechnen. Einzig die Slices 31 und 63 müssen ausgetauscht werden,
 da die Theta-Funktion für jeden Slice auch den benachbarten linken Slice benötigt. Die Berechnung der Rho-Funktion ist allerdings ein wenig komplizierter,
-da jede Lane durch Rho unterschiedlich weit rotiert wird. Es muss also im Kommunikationsprotokoll für jede Lane extra festgelegt welche Bits genau in welchem
+da jede Lane durch Rho unterschiedlich weit rotiert wird. Es muss also im Kommunikationsprotokoll für jede Lane extra festgelegt werden, welche Bits genau in welchem
 Takt ausgetauscht werden.
 
 \subsubsection{2-Block Spalten-orthogonale Aufteilung}
