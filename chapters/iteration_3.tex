@@ -82,7 +82,7 @@ bzw. übermittelt es die restlichen Tiles wieder über die Kommunikationseinheit
 Der Rho-Puffer besteht aus sieben 32-Bit-Schieberegistern. Diese berechnen, wie in \ref{cha:iteration_2_rho_transformation} beschrieben,
 interativ die Rotationen der $\rho$-Funktion. Der Aufbau des Rho-Moduls ist in Abbildung \ref{fig:rho_aufbau_iteration_3} skizziert.
 Die Berechnung erfolgt wie folgt: Im ersten Schritt werden die Tiles aus dem GAM-Speicher gelesen und auf den betreffenden Lanes
-wird eine Linksrotation durchgeführt, während die anderen Lanes unverändert bleiben. Das Ergebnis wird im wieder im GAM-Speicher gespeichert.
+wird eine Linksrotation durchgeführt, während die anderen Lanes unverändert bleiben. Das Ergebnis wird wieder im GAM-Speicher gespeichert.
 Im zweiten Schritt werden die Tiles aus dem GAM-Speicher erneut ausgelesen und diesmal wird auf den übrigen Lanes eine Rechtsrotation durchgeführt.
 Das finale Ergebnis der $\rho$-Berechnung wird dann im RES-Speicher wieder abgespeichert. Da es zur Berechnung keinerlei Kommunikation benötigt,
 ist dieses Modul auch als einziges nicht an die Kommunikationseinheit angeschlossen.

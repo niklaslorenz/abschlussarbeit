@@ -60,7 +60,7 @@ da die Kommunikationsschnittstelle vollständig ausgelastet ist und in den beide
 Die tatsächliche Berechnung hingegen nimmt mit jedem Entwurf deutlich mehr Zeit in Anspruch. Das ist alleine der Sequenzialisierung geschuldet.
 Statt wie vorher die gesamte Rundenfunktion in einem Takt abzuarbeiten, werden im zweiten Entwurf Rho in einem Schritt und Gamma/Theta in 16 Schritten für jeweils 2 Slices pro Atom berechnet.
 Hinzu kommen noch ein paar Takte durch die Verzögerung zwischen den Atomen, sodass die Berechnung der erweiterten Rundenfunktion im zweiten Entwurf insgesamt 21 Takte benötigt.
-Der dritte Entwurf verwendet die gleiche Vorgehensweise für die Berechnung von Gamma/Theta, braucht allerdings ein drei Takte länger durch die Verzögerung des BRAM
+Der dritte Entwurf verwendet die gleiche Vorgehensweise für die Berechnung von Gamma/Theta, braucht allerdings drei Takte länger durch die Verzögerung des BRAM
 und berechnet außerdem auch Rho sequenziell in 57 Takten. In Tabelle \ref{tab:zeiten_iteration_3} sind die Ausführungszeiten
 für die verschiedenen Teilfunktionen im dritten Entwurf noch einmal zusammengefasst.
 \begin{table}

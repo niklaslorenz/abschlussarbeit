@@ -112,9 +112,9 @@ Die starke Steigerung der Speicherkomplexität ist das Hauptproblem des Entwurfs
 um den Beschleuniger aus die erforderliche Größe reduzieren zu können. Um die Speicherverwaltung vollständig aus dem Design zu entfernen,
 hatten wir die Nutzung der BRAM-Blöcke in den Überlegungen des ersten Entwurfs schon einmal in Erwägung gezogen und uns letztendlich dagegen entschieden,
 weil die Verwendung des BRAM das Festlegen auf eine feste Orientierung der gespeicherten Daten bedeutet. Damit der Gamma-Block einfach wiederverwendet werden kann,
-ist es sinnvoll, die aktuelle Aufteilung der Daten zu berücksichtigen. Die einzig sinnvolle Orientierung des Speichers ist somit Lane-orthogonal,
+ist es sinnvoll, die aktuelle Aufteilung der Daten zu berücksichtigen. Die einzig sinnvolle Orientierung des Speichers ist somit Lane-orthogonal.
 Die Daten werden also immer als ein ganzzahliges Vielfaches an Tiles gespeichert. So können immer ganze Tiles dem Gamma-Block bereitgestellt werden.
-Da die Rho-Funktion, eigentlich auf Lanes arbeitet, muss dann aber in ihrer Implementierung so angepasst werden, dass sie mit Tiles arbeiten kann.
+Da die Rho-Funktion eigentlich auf Lanes arbeitet, muss sie dann aber in ihrer Implementierung so angepasst werden, dass sie mit Tiles arbeiten kann.
 
 \subsubsection{Transformation der Rho-Funktion}
 \label{cha:iteration_2_rho_transformation}
@@ -158,9 +158,9 @@ Mit diesem Vorgehen kann jede beliebige Rotation um 32 Bits mit nur einem Puffer
 Distanz ein anderes Bit aus dem Puffer auswählt. Außerdem können auch immer mehrere Bits gleichzeitig gelesen und geschrieben werden,
 indem der Inhalt des Schieberegisters um mehr als eine Stelle pro Schritt bewegt wird.
 Maximal brauchen wir von diesen Registern sieben Stück. Je mehr sich in den Beschleuniger integrieren lassen,
-desto schneller ist die Berechnung der $\rho$-Funktion. Da die zu lesenden und zu schreibenden Bits jedes Schritts nicht von der Rotations-Distanz
-abhängen, befinden für mehrere Puffer alle benötigten / berechneten Bits immer in den gleichen Tiles.
-Somit funktioniert die ganze Berechnung auf Slice-orientierten Daten.
+desto schneller ist die Berechnung der $\rho$-Funktion. Da die aus der Eingabe benötigten Bits, sowie auch die berechneten Ergebnisbits
+in jedem Schritt nicht von der Rotationsdistanz abhängen, befinden sich auch für mehrere Puffer alle benötigten / berechneten Bits immer
+in den gleichen Tiles. Somit funktioniert die ganze Berechnung mit beliebig vielen Puffern auch auf Slice-orientierten Daten.
 
 \subsubsection{BRAM als Datenspeicher}
 Mit dem neuen Ansatz für die Berechnung der $\rho$-Funktion kann auch der Datenspeicher in den BRAM verschoben werden,
