@@ -33,7 +33,7 @@ Komponenten bereit, die etwas speziellere oft benötigte Funktionen realisieren 
 wenn man sie über CLBs implementiert. Dazu gehören zum Beispiel \textit{Digital Signal Processors} (DSPs).
 Sie stellen Funktionen bereit, die zur Signalverarbeitung benötigt werden, können aber auch für Operationen wie Multiplikation verwendet werden.
 Neben den DSPs findet man auch \textit{Block-RAM}-Einheiten (BRAM). Diese sind ähnlich wie klassischer RAM in der Lage, eine große Menge Daten zu speichern,
-ohne viele LUTs zu beanspruchen. FPGAs haben gegenüber Mikroprozessoren den großen Vorteil, dass alle Funktionen, die von den Logikblöcken
+ohne viele LUTs zu beanspruchen \cite{fpga-basics}. FPGAs haben gegenüber Mikroprozessoren den großen Vorteil, dass alle Funktionen, die von den Logikblöcken
 realisiert werden, gleichzeitig und kontinuierlich berechnet werden. Auf diese Weise kann eine enorme Beschleunigung gegenüber einer
 reinen Software-Implementierung erzielt werden, da ein Prozessor alle Berechnungen nacheinander durchführen muss.
 
@@ -63,7 +63,7 @@ Speicher mit sehr geringer Zugriffszeit, den \textit{Tile Local Memory} (TLM), d
 	(Nachbildung aus \cite{hering2020})
     \label{fig:icore_fabric}
 \end{figure}
-Die \textit{Reconfigurable Fabric} enthält fünf Atom-Container (AC0 bis AC4), die zur Laufzeit rekonfiguriert werden können und in die die Beschleuniger geladen werden.
+Die \textit{Reconfigurable Fabric} enthält fünf \textit{Atom-Container} (AC0 bis AC4), die zur Laufzeit rekonfiguriert werden können und in die die Beschleuniger geladen werden.
 Jedes Atom hat eine Größe von 1600 LUTs, die den Beschleunigern zur Verfügung stehen. Über einen Bus-Connector sind die Atom-Container über eine Schnittstelle mit zwei Kanälen
 an den Bus der Fabric angebunden, welcher insgesamt über vier Kanäle verfügt. Bei allen Kanälen handelt es sich um 32-Bit-Vollduplexkanäle.
 Welche Kanäle den Atomen als Ein- und Ausgabe dienen, wird von den VLCWs der Spezialinstruktion bestimmt (siehe Abschnitt \ref{sec:special_instruction}). 
@@ -101,7 +101,7 @@ die länger als 256 Kontrollschritte sind, sind auch rudimentäre statische Schl
 
 \section{Erweiterung: Dynamische Ausführung}
 Um auch einen dynamischen Kontrollfluss innerhalb des VLCW-Mikrocodes zu ermöglichen, wie zum Beispiel Schleifen, die von einem Laufzeitparameter abhängen,
-verwenden wir eine von Hering \cite{hering2020} entwickelte Erweiterung der VLCWs. Die Atomcontainer werden mit zwei weiteren Ausgabebits ausgestattet.
+wird für den hier entworfenen Beschleuniger eine von Hering \cite{hering2020} entwickelte Erweiterung der VLCWs verwendet. Die Atom-Container werden mit zwei weiteren Ausgabebits ausgestattet.
 Diese können vom den Atomen des Beschleunigers beliebig implementiert werden. Um nun Sprünge realisieren zu können, werden die VLCWs um einen neuen Kontrollabschnitt erweitert.
 Dieser kann benutzt werden, um Zählervariablen für Schleifen zu setzen oder Sprünge anhand von diesen Zählern durchzuführen. Es sind jedoch auch Sprünge möglich,
 die nur bei bestimmten Mustern der neuen Ausgabebits der Atome genommen werden. Hierzu lässt sich im VLCW mit einer Bit-Maske codieren welche Atom-Container betrachtet werden sollen,

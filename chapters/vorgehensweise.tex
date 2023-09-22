@@ -1,15 +1,16 @@
 \section{Vorgehensweise}
-Ziel ist es, einen Beschleuniger zu entwickeln, der die Berechnung von SHA-3 möglichst effizient durchführt.
-Da alle SHA3-Funktionen die gleiche Instanz von KECCAK-p verwenden, ist die Wahl der konkret zu implementierenden
-SHA3-Funktion praktisch egal, sie unterscheiden sich nur in der Größe der Eingabeblöcke, die mit dem internen
-State Array kombiniert werden. Daher legen wir uns hier auf SHA3-256 fest, die der Beschleuniger implementieren soll.
+Ziel ist es einen Beschleuniger zu entwickeln, der die Berechnung von SHA-3 möglichst effizient durchführt.
+Da alle SHA-3-Funktionen die gleiche Instanz von KECCAK-p verwenden, ist die Wahl der konkret zu implementierenden
+SHA-3-Funktion praktisch egal. Sie unterscheiden sich nur in der Größe der Eingabeblöcke, die mit dem internen
+State Array kombiniert werden, sowie der Ausgabelänge. Daher legen wir uns hier auf SHA3-256 fest, die der Beschleuniger implementieren soll.
 Dabei müssen aber alle Voraussetzungen der gewählten Architektur eingehalten werden. Im Falle des i-Core sind
 das die Größenbeschränkung von maximal fünf Atomen mit jeweils 1600 LUTs, sowie das Implementieren der
-Kommunikationsschnittstelle der Atome, sodass sie sowohl untereinander, als auch mit dem i-Core, Daten austauschen können.
+Kommunikationsschnittstelle der Atom-Container, sodass sie sowohl untereinander, als auch mit dem i-Core Daten austauschen können.
 Da quasi der gesamte Rechenaufwand von SHA-3 aus der wiederholten Berechnung der KECCAK-p-Funktion besteht,
 soll der hier entworfene Beschleuniger genau diese KECCAK-p-Funktion berechnen.
-Für den Entwurf verwenden wir hier ein iteratives Design-Verfahren. Angefangen wird mit einem Beschleuniger,
-der die Architekturbeschränkungen komplett ignorieren darf, um eine maximale Berechnungsgeschwindigkeit zu erzielen.
+Der Beschleuniger soll in einem iterativen Verfahren entworfen werden, wobei die Anforderungen am Anfang noch
+nicht eingehalten werden müssen. Angefangen wird mit einem Beschleuniger,
+der die Architekturbeschränkungen komplett ignoriert, um eine maximale Berechnungsgeschwindigkeit zu erzielen.
 Der Platz des Beschleunigers sollte dennoch sinnvoll genutzt werden. Auf diesem Entwurf aufbauend können dann
 Strategien entwickelt werden, um die Berechnung so aufzuteilen, dass der entstehende Beschleuniger nach und nach die
 Voraussetzungen der Architektur erfüllt.

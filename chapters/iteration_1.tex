@@ -6,7 +6,7 @@ ihrer Berechnungen nebeneinander realisiert werden. Da Ein- und Ausgabedaten mit
 wie die Größenbeschränkung des i-Core, ist es deutlich sinnvoller, die Berechnung der Runden nacheinander über dieselbe Realisierung der Rundenfunktion durchzuführen.
 Ziel dieses Entwurfs ist daher die Implementierung der Rundenfunktion in einem rein kombinatorischen Netz, womit dann in jedem Takt
 jeweils eine Runde berechnet werden kann, bis schließlich die komplette KECCAK-p-Funktion berechnet ist. Die Kommunikationsschnittstelle
-der Atome soll auch rudimentär implementiert werden, sodass das Einlesen und Ausgeben von Daten den dafür vorgesehenen 64-Bit Datenkanal nutzt
+der Atom-Container soll auch rudimentär implementiert werden, sodass das Einlesen und Ausgeben von Daten den dafür vorgesehenen 64-Bit Datenkanal nutzt
 und die Steuerung des Atoms über maximal 6 Kontrollbits durchgeführt wird.
 
 \subsection{Aufbau}
