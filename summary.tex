@@ -1,19 +1,23 @@
 
-
 \selectlanguage{ngerman}
 \section*{Zusammenfassung}
-In dieser Arbeit werden wir einen Hardware-Beschleuniger für einen rekonfigurierbaren Prozessor entwickeln, der die Berechnung
-von SHA-3, einer kryptographischen Hashfunktion, optimiert. Als Plattform verwenden wir dazu den i-Core.
-Wir werden einen Einblick in sowohl SHA-3 als auch den i-Core bekommen, um nachher die vorgestellten Entwurfsentscheidungen
-begründen zu können. Am Ende werden wir den entworfenen Beschleuniger mit einer Software-Implementierung von SHA-3 vergleichen
-und ihn anhand dessen bewerten.
+In dieser Arbeit wird ein Hardware-Beschleuniger für einen rekonfigurierbaren Prozessor entwickelt, der die Berechnungszeit
+von SHA-3, einer kryptographischen Hashfunktion, optimiert. Als Plattform dient dazu der i-Core, der kleine FPGA-Blöcke
+zur Verfügung stellt, die frei vom Anwender konfiguriert werden können. Es wird zuerst ein kleiner Einblick in
+die i-Core-Architektur als auch in SHA-3 gegeben und danach wird in einem iterativen Entwurfsverfahren der Beschleuniger konstruiert.
+Dabei werden zu jedem Entwurf die getroffenen Designentscheidungen motiviert und ihre Umsetzung erklärt. In diesem Verfahren entsteht
+ein Beschleuniger, der die Berechnungsgeschwindigkeit der dem SHA-3-Algorithmus zugrunde liegenden Permutation um etwa einen Faktor 36 beschleunigt.
+Am Ende werden die betrachteten Entwürfe miteinander verglichen und ihre jeweiligen Stärken herausgearbeitet.
 
 \selectlanguage{american}
 
 ~\\
 ~\\
 \section*{Summary}
-In this work, we will design a hardware accelerator for a reconfigurable processor that optimizes the calculation of SHA-3,
-a cryptographic hash function. To do that, we chose the i-Core as our processor platform. We will get a quick introduction
-to both the i-Core and SHA-3 to understand and explain the design decisions that are presented in this work. In the end,
-we will compare our designed accelerator to a software implementation and evaluate it based on that comparison.
+In this work, a hardware accelerator for a reconfigurable processor is developed, that optimizes the computation time of SHA-3,
+a cryptographic hash function. The platform used for this purpose is the i-Core, which provides small FPGA blocks that
+can be freely configured by the programmer. First, a brief overview of the i-Core architecture as well as SHA-3 is provided,
+and then the accelerator is constructed through an iterative design process. In this process, the design decisions
+made for each iteration are motivated and their implementation is explained. This results in an accelerator that speeds
+up the computation of the permutation underlying the SHA-3 algorithm by a factor of approximately 36. Finally,
+the presented designs are compared, and their respective strengths are highlighted.

@@ -1,5 +1,16 @@
 
-@ARTICLE{fpga-basics,
+@article{Bauer2009,
+    author       = {Bauer, Lars},
+	journal 	 = {PhD Thesis},
+    year         = {2009},
+    title        = {RISPP: A Run-time Adaptive Reconfigurable Embedded Processor},
+    doi          = {10.5445/IR/1000021186},
+    publisher    = {{Universität Karlsruhe (TH)}},
+    keywords     = {Reconfigurable Processor, Application Specific Processor, ASIP, Run-time Adaptivity, Run-time System, FPGA,Efficiency, Performance,Special Instruction},
+    language     = {english}
+}
+
+@article{fpga-basics,
   author={Boutros, Andrew and Betz, Vaughn},
   journal={IEEE Circuits and Systems Magazine}, 
   title={FPGA Architecture: Principles and Progression}, 
@@ -10,121 +21,126 @@
   doi={10.1109/MCAS.2021.3071607}
 }
 
-@thesis{hering2020,
-	type		 = {bachelorthesis},
+@article{indifferentiability,
+author="Bertoni, Guido
+and Daemen, Joan
+and Peeters, Micha{\"e}l
+and Van Assche, Gilles",
+editor="Smart, Nigel",
+title="On the Indifferentiability of the Sponge Construction",
+journal="Advances in Cryptology -- EUROCRYPT 2008",
+year="2008",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages={181-197},
+isbn="978-3-540-78967-3"
+}
+
+@article{Keccak11,
+ author = {Bertoni, Guido and Daemen, Joan and Peeters, Micha{\"e}l and Van Assche, Gilles},
+ title = {{The Keccak reference}},
+ journal = {Round 3 submission to NIST SHA-3},
+ year = {Zugegriffen am 15.09.2023},
+ note = {\url{https://keccak.team/files/Keccak-reference-3.0.pdf}},
+}
+
+@article{sha3-impl,
+  author = {(Pseudonym) Brainhub},
+  title = {SHA3IUF},
+  note = {\url{https://github.com/brainhub/SHA3IUF}},
+  year = {Zugegriffen am 15.09.2023}
+}
+
+@article{quantum_indifferentiability,
+      author = {Jan Czajkowski},
+      title = {Quantum Indifferentiability of SHA-3},
+      journal = {Cryptology ePrint Archive, Paper 2021/192},
+      year = {Zugegriffen am 15.09.2023},
+      note = {\url{https://eprint.iacr.org/2021/192}}
+}
+
+@article{Daemen1995CipherAH,
+  title={Cipher and hash function design strategies based on linear and differential cryptanalysis},
+  author={Daemen, Joan},
+  year={1995},
+  journal={PhD Thesis},
+}
+
+@article{sha3-standard,
+  author = {Morris Dworkin},
+  title = {SHA-3 Standard: Permutation-Based Hash and Extendable-Output Functions},
+  year = {2015},
+  journal = {Federal Inf. Process. Stds. (NIST FIPS), National Institute of Standards and Technology, Gaithersburg, MD},
+}
+
+@article{leon3,
+  author = {Gaisler, Cobham},
+  title = {LEON3 Processor},
+  note = {\url{https://www.gaisler.com/index.php/products/processors/leon3}},
+  year = {Zugegriffen am 15.09.2023}
+}
+
+@article{hering2020,
+	journal		 = {Bachelor Thesis, Karlsruher Institut für Technologie},
 	author 		 = {Hering, Sascha},
 	year		 = {2020},
-	title		 = {Entwicklung einer dynamischen Ausführungssteuerung für Spezialbefehle im i-Core},
-	language	 = {german}
+	title		 = {Entwicklung einer dynamischen {A}usführungssteuerung für {S}pezialbefehle im i-{C}ore},
 }
 
-@phdthesis{Bauer2009,
-    author       = {Bauer, Lars},
-    year         = {2009},
-    title        = {RISPP: A Run-time Adaptive Reconfigurable Embedded Processor},
-    doi          = {10.5445/IR/1000021186},
-    publisher    = {{Universität Karlsruhe (TH)}},
-    keywords     = {Reconfigurable Processor, Application Specific Processor, ASIP, Run-time Adaptivity, Run-time System, FPGA,Efficiency, Performance,Special Instruction},
-    language     = {english}
+@article{MaReHo04,
+    author       = {Ueli Maurer and Renato Renner and Clemens Holenstein},
+    title        = {Indifferentiability, Impossibility Results on Reductions, and Applications to the Random Oracle Methodology},
+    editor       = {Moni Naor},
+    journal      = {Theory of Cryptography Conference --- TCC 2004},
+    pages        = {21--39},
+    year         = {2004},
 }
 
-@thesis{riedlberger2013,
+@article{riedlberger2013,
 	type		 = {diplomathesis},
 	author		 = {Riedlberger, Martin},
 	year		 = {2013},
-	submissiondate = {2013-11-27},
-	title		 = {Entwicklung des rekonfigurierbaren Prozessors i-Core auf Basis des LEON3 Systems},
+	title		 = {Entwicklung des rekonfigurierbaren {P}rozessors i-{C}ore auf {B}asis des {LEON}3 {S}ystems},
 	language	 = {german},
-	institution  = {Karlsruher Institut für Technologie}
+	journal      = {Diploma Thesis, Karlsruher Institut für Technologie}
 }
 
-@misc{riedlberger2015,
+@article{riedlberger2015,
   author = {Riedlberger, Martin},
-  title = {Erweiterung des i-Core Prozessors und Portierung auf die VC707 Entwicklungsplattform},
-  submissiondate = {2015-10-14},
+  title = {{E}rweiterung des i-{C}ore {P}rozessors und {P}ortierung auf die {VC707} {E}ntwicklungsplattform},
   year = {2015},
-  institution = {Fakultät für Informatik, Karlsruher Institut für Technologie},
+  journal = {Student Research Project, Karlsruher Institut für Technologie},
 }
 
-@misc{leon3,
-  title = {LEON3 Processor},
-  howpublished = {\url{https://www.gaisler.com/index.php/products/processors/leon3}},
-  note = {Accessed: 2023-09-15}
-}
-
-@InProceedings{rogaway2004crypto,
+@article{rogaway2004crypto,
 author="Rogaway, Phillip
 and Shrimpton, Thomas",
 editor="Roy, Bimal
 and Meier, Willi",
 title="Cryptographic Hash-Function Basics: Definitions, Implications, and Separations for Preimage Resistance, Second-Preimage Resistance, and Collision Resistance",
-booktitle="Fast Software Encryption",
+journal="Fast Software Encryption",
 year="2004",
-publisher="Springer Berlin Heidelberg",
-address="Berlin, Heidelberg",
 pages="371--388",
-abstract="We consider basic notions of security for cryptographic hash functions: collision resistance, preimage resistance, and second-preimage resistance. We give seven different definitions that correspond to these three underlying ideas, and then we work out all of the implications and separations among these seven definitions within the concrete-security, provable-security framework. Because our results are concrete, we can show two types of implications, conventional and provisional, where the strength of the latter depends on the amount of compression achieved by the hash function. We also distinguish two types of separations, conditional and unconditional. When constructing counterexamples for our separations, we are careful to preserve specified hash-function domains and ranges; this rules out some pathological counterexamples and makes the separations more meaningful in practice. Four of our definitions are standard while three appear to be new; some of our relations and separations have appeared, others have not. Here we give a modern treatment that acts to catalog, in one place and with carefully-considered nomenclature, the most basic security notions for cryptographic hash functions.",
-isbn="978-3-540-25937-4"
 }
 
-@misc{sha3-standard,
-  author = {Morris Dworkin},
-  title = {SHA-3 Standard: Permutation-Based Hash and Extendable-Output Functions},
-  year = {2015},
-  month = {2015-08-04},
-  publisher = {Federal Inf. Process. Stds. (NIST FIPS), National Institute of Standards and Technology, Gaithersburg, MD},
-  doi = {https://doi.org/10.6028/NIST.FIPS.202},
-  language = {en},
+@article{iot-security,
+author = {Taherdoost, Hamed},
+year = {2023},
+pages = {1901},
+title = {Security and Internet of Things: Benefits, Challenges, and Future Perspectives},
+volume = {12},
+journal = {Electronics},
+doi = {10.3390/electronics12081901}
 }
 
-@inproceedings{Daemen1995CipherAH,
-  title={Cipher and hash function design strategies based on linear and differential cryptanalysis},
-  author={Joan Daemen},
-  year={1995},
-  url={https://api.semanticscholar.org/CorpusID:59642110}
-}
 
-@inproceedings{MaReHo04,
-    author       = {Ueli Maurer and Renato Renner and Clemens Holenstein},
-    title        = {Indifferentiability, Impossibility Results on Reductions, and Applications to the Random Oracle Methodology},
-    editor       = {Moni Naor},
-    booktitle    = {Theory of Cryptography Conference --- TCC 2004},
-    pages        = {21--39},
-    series       = {Lecture Notes in Computer Science},
-    volume       = {2951},
-    year         = {2004},
-    month        = {2},
-    publisher    = {Springer-Verlag},
-}
 
-@inproceedings{indifferentiability,
-  title={On the Indifferentiability of the Sponge Construction},
-  author={Guido Bertoni and Joan Daemen and Micha{\"e}l Peeters and Gilles Van Assche},
-  booktitle={International Conference on the Theory and Application of Cryptographic Techniques},
-  year={2008},
-  url={https://api.semanticscholar.org/CorpusID:17376836}
-}
 
-@misc{quantum_indifferentiability,
-      author = {Jan Czajkowski},
-      title = {Quantum Indifferentiability of SHA-3},
-      howpublished = {Cryptology ePrint Archive, Paper 2021/192},
-      year = {2021},
-      note = {\url{https://eprint.iacr.org/2021/192}},
-      url = {https://eprint.iacr.org/2021/192}
-}
 
-@misc{Keccak11,
- author = {G. Bertoni{,} J. Daemen{,} M. Peeters and G. Van Assche},
- title = {{The Keccak reference}},
- howpublished = {Round 3 submission to NIST SHA-3},
- year = {2011},
- url = {http://keccak.noekeon.org/Keccak-reference-3.0.pdf},
-}
 
-@misc{sha3-impl,
-  author = {github.com/brainhub},
-  title = {SHA3IUF},
-  note = {https://github.com/brainhub/SHA3IUF},
-  urldate = {2023-09-15}
-}
+
+
+
+
+
+

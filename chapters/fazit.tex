@@ -1,18 +1,28 @@
-In dieser Arbeit haben wir gezeigt, wie ein Hardwarebeschleuniger für eine rekonfigurierbare Prozessorplattform
+
+
+In dieser Arbeit wurde gezeigt, wie ein Hardwarebeschleuniger für eine rekonfigurierbare Prozessorplattform
 wie den i-Core implementiert werden kann, die die starken Anforderungen, besonders was die maximale Größe des Beschleunigers betrifft, erfüllt.
-Dazu sind wir von einem monolithischen Design mit sehr hoher Berechnungsgeschwindigkeit ausgegangen und sind
-nach und nach durch kleine Änderungen zu einem modularen System gekommen, das zwar eine geringere
+Dazu wurden ausgehend von einem monolithischen Design mit sehr hoher Berechnungsgeschwindigkeit
+nach und nach kleine Änderungen vorgenommen, worduch am Ende ein modulares System entstand, das zwar eine geringere
 Berechnungsgeschwindigkeit besitzt, dafür aber die Anforderungen der Plattform erfüllt.
+
+
+
 Für die vorgenommenen Verbesserungen haben wir verschiedene Ansätze diskutiert und damit die weiteren
-Entwurfsentscheidungen begründet. Der entstandene Beschleuniger besteht aus insgesamt vier Atomen,
+Entwurfsentscheidungen begründet. Besonders hervorzuheben sind hier die Berechnungseinheiten für $\rho$ und $\gamma$,
+von denen jeweils eine bereits ausreicht, um die gesamte erweiterte Rundenfunktion zu berechnen, die aber auch
+je nach verfügbarem Platz mehrfach implementiert werden können, um eine weitere Beschleunigung zu erzielen.
+
+
+Der konkret für den i-Core entwickelte Beschleuniger besteht aus insgesamt vier Atomen,
 nutzt jedoch den Platz der den einzelnen Atomen zur Verfügung steht, nicht vollständig aus.
-Daher haben wir uns noch weitere vielversprechende Verbesserungsmöglichkeiten für die Zukunft überlegt,
+Daher wurden noch weitere vielversprechende Verbesserungsmöglichkeiten für die Zukunft vorgestellt,
 die den noch verfügbaren Platz verwenden, um die Berechnungsgeschwindigkeit weiter zu erhöhen.
 Als Beispiel sei da die Erweiterung der Speicherschnittstelle genannt, wodurch die Berechnungszeit der
 $\rho$-Funktion, die etwa 70\% der gesamten Berechnungszeit beansprucht, nochmal halbiert werden kann.
-Am Ende haben wir den aktuellen Beschleuniger mit einer Software-Implementierung verglichen und festgestellt,
-das der entworfene Beschleuniger die Berechnung der KECCAK-p-Funktion, welche bei SHA-3 den alleinigen Rechenaufwand darstellt,
+Bei einem Vergleich des aktuellen Beschleuniger mit einer Software-Implementierung ließ sich feststellen,
+dass der entworfene Beschleuniger die KECCAK-p-Funktion, welche bei SHA-3 den alleinigen Rechenaufwand darstellt,
 um einen Faktor 36 schneller berechnet, als es die Software auf dem i-Core tut. Über eine genauere Untersuchung
-der Berechnungsabläufe in der Software können wir schätzen, dass etwa ein Faktor 6 der gemessenen Beschleunigung
+der Berechnungsabläufe in der Software ist dabei klar geworden, dass etwa ein Faktor 6 der gemessenen Beschleunigung
 durch die veränderte Berechnungsmethode entsteht und ein weiterer Faktor 6 durch Einflüsse wie Kontrollfluss-Strukturen
-in der Software und Speicherzugriffe mit langen Zugriffszeiten, durch zum Beispiel Cache Misses, entstehen.
+in der Software und Speicherzugriffe mit langen Zugriffszeiten durch zum Beispiel Cache Misses, entsteht.

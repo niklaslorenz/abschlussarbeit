@@ -1,19 +1,19 @@
-Kryptographische Verfahren wie Verifikation digitaler Daten sind seit jeher wichtig für die Kommunikation auf unsicheren Kanälen.
-Gerade vernetzte Kleinstrechner wie IoT-Geräte sind aufgrund ihrer geringen Leistungsfähigkeit sehr anfällig für Angreifer.
+Kryptographische Verfahren wie die Verifikation digitaler Daten oder Kommunikationspartnern sind seit jeher wichtig für die Kommunikation auf unsicheren Kanälen.
+Gerade vernetzte Kleinstrechner wie IoT-Geräte sind aufgrund ihrer geringen Leistungsfähigkeit sehr anfällig für Angreifer \cite{iot-security}.
 Verfahren zur Programmverifikation können dem entgegenwirken, benötigen jedoch verhältnismäßig viel Rechenleistung.
 Mit Hilfe spezialisierter Hardware, die die nötigen Aufgaben effizienter ausführt, kann dieser zusätzliche Aufwand reduziert werden.
-Rekonfigurierbare Prozessoren können hier Abhilfe schaffen. Sie erlauben es, kleine Hardwarebeschleuniger zur Laufzeit zu laden,
-wenn sie benötigt werden und rechenintensive Aufgaben zu erledigen. Gleichzeitig müssen sie auch nicht für das spezielle
+Rekonfigurierbare Prozessoren bieten die Möglichkeit kleine Hardwarebeschleuniger zur Laufzeit zu laden,
+wenn sie benötigt werden, und rechenintensive Aufgaben zu erledigen. Gleichzeitig müssen sie auch nicht für ein spezielles
 Einsatzgebiet angefertigt werden, sondern können nachträglich spezialisiert werden, was auch die Produktionskosten reduziert.
 Des Weiteren können die zur Verfügung gestellten Beschleuniger-Blöcke zusätzlich auch für weitere einsatzspezifische Aufgaben verwendet werden.
 
-In dieser Arbeit soll daher einen Beschleuniger für einen rekonfigurierbaren Prozessor entwickelt werden, der die Berechnung einer
-kryptographischen Hashfunktion optimiert, dem Herzstück vieler Verifizierungsalgorithmen. Dabei soll der i-Core (siehe Kapitel \ref{cha:icore}) als Prozessorarchitektur
-dienen und konkret soll eine SHA-3-Hashfunktion für ihn implementiert werden. SHA-3 ist eine relativ neue Familie an Hashfunktionen,
-die auch in naher Zukunft noch viel Sicherheit verspricht und viele Probleme bisheriger Hashfunktionen verbessert.
-Dazu wollen wir uns zuerst einmal den i-Core, sowie SHA-3 genauer anschauen und einen Einblick in ihre Funktionsweisen erhalten.
+In dieser Arbeit wird ein Beschleuniger für einen rekonfigurierbaren Prozessor entwickelt, der die Berechnungsgeschwindigkeit einer
+kryptographischen Hashfunktion optimiert, dem Herzstück vieler Verifizierungsalgorithmen. Dabei dient der i-Core (siehe Kapitel \ref{cha:icore}) als Prozessorarchitektur
+und konkret wird eine SHA-3-Hashfunktion für ihn implementiert. SHA-3 ist eine relativ neue Familie an Hashfunktionen,
+die auch in naher Zukunft noch viel Sicherheit verspricht und viele Probleme bisheriger Hashfunktionen löst.
 
-Danach wird der Entwurfsprozess des Beschleunigers vorgestellt. Das Ziel ist es ein Design zu entwickeln, das die Anforderungen
+Es wird zuerst ein kleiner Einblick in den i-Core, sowie SHA-3 gegeben und
+danach wird der Entwurfsprozess vorgestellt, in dem der entstandene Beschleuniger entwickelt wurde. Das Ziel war es ein Design zu entwickeln, das die Anforderungen
 der i-Core-Architektur erfüllt und möglichst viel seines Leistungspotentials dabei ausschöpft. Dabei werden wir uns
 verschiedene aufeinander aufbauende Entwürfe anschauen. Zu Jedem werden die getroffenen Entwurfsentscheidungen diskutiert und die
 Notwendigkeit gewisser Einschnitte in der Leistungsfähigkeit zur Erfüllung der Anforderungen erläutert. Außerdem werden Ansätze
