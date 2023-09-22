@@ -1,5 +1,5 @@
-SHA-3 ("\textit{Secure Hash Function}"-3) ist eine vom US-amerikanischen "National Institute of Standards and Technology"
-definierte Familie von kryptographischen Hashfunktionen. Zu ihr gehören SHA3-224, SHA3-256, SHA3-384, SHA3-512,
+SHA-3 ("\textit{Secure Hash Algorithm}"-3) ist eine vom US-amerikanischen "National Institute of Standards and Technology"
+definierte Familie von kryptographischen Hashfunktionen \cite{sha3-standard}. Zu ihr gehören SHA3-224, SHA3-256, SHA3-384, SHA3-512,
 sowie noch zwei Zufallsfunktionen mit variabler Ausgabelänge SHAKE128 und SHAKE256, die wir hier aber nicht weiter betrachten wollen.
 In Tabelle \ref{tab:uebersicht_sha3} sind ein paar wichtige Eigenschaften der unterschiedlichen SHA3-Funktionen aufgelistet.\\
 
@@ -33,13 +33,13 @@ Damit eine solche Hashfunktion $H$ als kryptographisch sicher gilt, erwartet man
     also $H(M) = H(M^\prime)$ \cite{rogaway2004crypto}
 \end{enumerate}
 Ob eine Hashfunktion nun diese Anforderungen erfüllt, hängt davon ab, welche Mächtigkeit man einem Angreifer erlaubt,
-der versucht diese Probleme zu lösen. Für klassische Computer betrachtet man typischerweise Algorithmen aus der Komplexitätsklasse $BPP$ (Bounded-Error Probabilistic Polynomial Time).
+der versucht diese Probleme zu lösen. Für klassische Computer betrachtet man typischerweise Algorithmen aus der Komplexitätsklasse \textit{BPP} (Bounded-Error Probabilistic Polynomial Time).
 Diese Algorithmen sind probabilistisch und müssen nur mit einer Wahrscheinlichkeit von $p > 2/3$ das richtige Ergebnis ausgeben.
 Es ist die mächtigste Klasse klassisch probabilistischer Algorithmen, weshalb man die Angreifer aus dieser Klasse wählt.
 Quantencomputer sind jedoch in einigen Aspekten deutlich mächtiger als klassische Computer und auch wenn sie bisher
 noch um mehrere Größenordnungen zu klein sind, um moderne Hashfunktionen zu brechen, untersucht man schon länger die Sicherheit
-von kryptographischen Systemen wie Hashfunktionen oder Verschlüsselungen gegen Quantenalgorithmen. Analog zur Komplexitätsklasse $BPP$
-gibt es daher für Quantenalgorithmen die Klasse $BQP$ (Bounded Error Quantum Polynomial Time). In \ref{cha:sha3_sicherheit} werden wir uns die
+von kryptographischen Systemen wie Hashfunktionen oder Verschlüsselungen gegen Quantenalgorithmen. Analog zur Komplexitätsklasse \textit{BPP}
+gibt es daher für Quantenalgorithmen die Klasse \textit{BQP} (Bounded Error Quantum Polynomial Time). In \ref{cha:sha3_sicherheit} werden wir uns die
 Sicherheitseigenschaften von SHA-3 genauer anschauen. \\
 
 Um Anfragen beliebiger Länge bearbeiten zu können, bestehen Hashfunktionen typischerweise aus vier Teilen. Mit Hilfe einer \textit{Padding}-Funktion wird die Eingabe so erweitert,
@@ -88,7 +88,7 @@ bevor wir uns die fünf Unterfunktionen ansehen, aus denen die KECCAK-p-Funktion
 \subsection{Zustandsvektor}
 Die KECCAK-p-Funktion arbeitet auf einem 1600 Bit breiten Zustandsvektor, der \textit{State Array} genannt wird.
 Am besten lässt sich ein solches State Array \textbf{A} als einen dreidimensionalen Block aus 5x5x64 Bits vorstellen, siehe Abbildung \ref{fig:statearray}.
-Wir können dabei jedes Bit von \textbf{A} über die drei Indizes $x$, $y$ und $z$ identifizieren.
+Dabei kann jedes Bit von \textbf{A} über die drei Indizes $x$, $y$ und $z$ identifiziert werden.
 Genauer gilt
 \begin{align*}
     \textbf{A}[x][y][z] \in \{0,1\} (\forall x, y \in \{0,...,4\};\ z \in \{0,...,63\})
@@ -116,7 +116,7 @@ Die Lanes werden also der Reihe nach erst in x-Richtung und dann in y-Richtung m
 \label{cha:sha3_unterfunktionen}
 Die KECCAK-p-Funktion ist aus einer Rundenfunktion $Rnd$ aufgebaut, die mehrfach hintereinander ausgeführt wird.
 Diese Rundenfunktion ist wiederum aus fünf Unterfunktionen aufgebaut, die alle auf dem State Array arbeiten.
-Alle folgenden Funktionen basieren auf den Definitionen im SHA-3-Standard \cite{sha3-standard}.
+Alle der im Folgenden vorgestellten Funktionen basieren auf den Definitionen im SHA-3-Standard \cite{sha3-standard}.
 
 \subsubsection{Theta-Unterfunktion}
 \begin{figure}
@@ -168,7 +168,7 @@ Die Pi-Unterfunktion ($\pi$) vertauscht die Lanes eines State Arrays untereinand
     \textbf{A}^\prime[x][y] & \coloneq \textbf{A}[(x + 3y)\ mod\ 5][x]\ \forall x = 0,...,4;\ y = 0,...,4
 \end{align*}
 Da der Ring $\mathbb{Z}/5\mathbb{Z}$ nullteilerfrei ist, ist die Indexberechnung $(x + 3y)\ mod\ 5$ injektiv für ein festes $x$.
-Es sind also wirklich wieder alle Lanes im Ergebnis $\textbf{A}^\prime$ enthalten. In Abbildung \ref{fig:definition_pi} ist $pi$
+Es sind also wirklich wieder alle Lanes im Ergebnis $\textbf{A}^\prime$ enthalten. In Abbildung \ref{fig:definition_pi} ist $\pi$
 auch nochmal veranschaulicht.
 
 \subsubsection{Chi-Unterfunktion}
@@ -279,14 +279,14 @@ Die genaue Definition der Schwammkonstruktion über einer Transformation $f$ mit
 
 \begin{align*}
     &\begin{alignedat}[t]{2}
-        Seien\ & n \in \mathbb{N} && \text{ die Transformationsbreite}, \\
+        \text{Seien } & n \in \mathbb{N} && \text{ die Transformationsbreite}, \\
         & c \in \{1,...,n\} && \text{ die Kapazität (Anzahl "versteckter" Bits)}, \\
         & r \in \{1,...,n\} && \text{ die Blocklänge}, \\
         & M \in \{0,1\}^* && \text{ die zu verarbeitende Nachricht}, \\
         & m \in \mathbb{N} && \text{ die Anzahl an Blöcken, in die M eingeteilt wird}, \\
         & d \in \mathbb{N} && \text{ die gewünschte Ausgabe}, \\
         & l \coloneq \lceil \frac{d}{r} \rceil && \text{ die benötigte Blockanzahl an Ausgabe}, \\
-        & pad: \mathbb{N}x\{0,1\}^* \to (\{0,1\}^r)^+ && \text{ eine Padding-Funktion}, \\
+        & pad: \mathbb{N} \times \{0,1\}^* \to \{0,1\}^+ && \text{ eine Padding-Funktion}, \\
         & f: \{0,1\}^n \to \{0,1\}^n && \text{ eine Transformation}.
     \end{alignedat} \\
     \\
@@ -321,18 +321,21 @@ wie beispielsweise den beiden SHAKE-Funktionen.
 
 \section{Sicherheitseigenschaften}
 \label{cha:sha3_sicherheit}
-Nun ist erstmal noch überhaupt nicht klar, wieso es sich bei den \ref{cha:definition_sha3} definierten Funktionen um eine Einwegfunktion handelt.
-Schließlich verwendet sie eine sehr leicht invertierbare Permutation. Dazu wollen wir uns die Schwammkonstruktion noch einmal etwas genauer anschauen,
-in diesem Fall am Beispiel von SHA3-256, wobei wir nur einen Block hashen. Um die Permutation invertieren zu können,
-muss allerdings die gesamte Eingabe vorliegen. Da über den Hash $h$ einer Nachricht $M$ allerdings nur 256-Bit der Ausgabe der Permutation bekannt sind,
-kann die Funktion nicht direkt invertiert werden. Auch kann nicht einfach eine beliebige Belegung für den restlichen Teil gewählt werden,
-da am Ende nur ein Teil der Eingabe durch den Nachrichtenblock festgelegt werden kann. 
-Die Schwierigkeit bei der Invertierung der Schwammfunktion entsteht also durch die Kombination aus Kapazität und dem Verwerfen eines Teils des Ergebnisses.
-Diese Überlegung reicht natürlich noch nicht als Beweis, aber sie gibt einen intuitiven Einblick das zugrunde liegende Problem.
-Bertoni et al. \cite{indifferentiability} bewiesen bereits, dass die Schwammkonstruktion selbst, wenn sie mit einer zufälligen Permutation initialisiert wird,
+Nun ist erstmal noch überhaupt nicht klar, wieso es sich bei den in \ref{cha:definition_sha3} definierten Funktionen um Einwegfunktionen handelt.
+Schließlich verwenden sie eine sehr leicht invertierbare Permutation. Dazu schauen wir uns die Schwammkonstruktion noch einmal etwas genauer an,
+in diesem Fall am Beispiel von SHA3-256, wobei konkret nur einen Block gehasht wird. Um die Inverse der Permutation zu berechnen, man hat also eine Ausgabe gegeben
+und möchte zurückrechnen welche Eingabe verwendet wurde, muss allerdings die gesamte Ausgabe vorliegen. Da über den Hash $h$ einer Nachricht $M$ allerdings
+nur 256-Bit der Ausgabe der Permutation bekannt sind, kann die Permutation nur mit $h$ nicht direkt invertiert werden. Auch kann nicht einfach eine beliebige Belegung
+für den abgeschnittenen Teil gewählt werden, da am Ende nur ein Teil der Eingabe durch den Nachrichtenblock festgelegt werden kann und für einen gültigen Hash
+die restlichen Bits der Kapazität in der Eingabe alle auf 0 gesetzt sein müssen. Die Schwierigkeit bei der Invertierung der Schwammfunktion entsteht also durch
+die Kombination aus Kapazität, die eine gewisse Anzahl an Stellen in der Eingabe freihält und dem Verwerfen eines Teils des Ergebnisses.
+Diese Überlegung reicht natürlich noch nicht als Beweis, aber sie gibt einen intuitiven Einblick in das zugrunde liegende Problem.
+Bertoni et al. \cite{indifferentiability} bewiesen bereits, dass die Schwammkonstruktion, wenn sie mit einer zufälligen Permutation initialisiert wird,
 für einen klassischen Algorithmus von einem Zufallsorakel undifferenzierbar ist, eine Eigenschaft, die von Maurer et al. \cite{MaReHo04} eingeführt wurde als Generalisierung
-der Ununterscheidbarkeit. Czajkowski \cite{quantum_indifferentiability} Zeigte außerdem, dass diese Eigenschaft auch für Quantenalgorithmen gilt. Undifferenzierbarkeit von einem Zufallsorakel
+der Ununterscheidbarkeit. Czajkowski \cite{quantum_indifferentiability} zeigte außerdem, dass diese Eigenschaft auch für Quantenalgorithmen gilt. Undifferenzierbarkeit von einem Zufallsorakel
 ist eine sehr starke Eigenschaft für kryptographische Systeme, da aus ihr direkt viele Sicherheitseigenschaften folgen \cite{indifferentiability}.
 Damit diese Eigenschaft für SHA-3 gilt, muss allerdings die zugrundeliegende Permutation KECCAK-p ebenfalls undifferenzierbar von einer zufälligen Permutation sein.
-Einen solchen Beweis gibt es bisher nicht. Allerdings ist beweisbar, dass KECCAK-p gegen alle bekannten Angriffe besteht, die zum Beispiel Techniken
-wie die lineare oder differenzielle Kryptoanalyse verwenden \cite{Keccak11}.
+Einen formellen Beweis dafür gibt es allerdings nicht. Es ist aber tatsächlich üblich, dass solche Eigenschaften für Transformationen von in der Praxis eingesetzten Hashfunktionen
+nicht bewiesen werden. Stattdessen ist man zufrieden, wenn keine Herangehensweise bekannt ist, mit der die betrachtete Transformation von echtem Zufall unterschieden werden kann.
+Zu solchen Herangehensweisen gehören zum Beispiel die lineare oder die differenzielle Kryptoanalyse und man kann zeigen, dass die KECCAK-p-Permutation gegen solche Methoden
+hält \cite{Keccak11}.
